@@ -212,7 +212,7 @@ html, body {
   scrollbar-width: none;
   position: sticky;
   justify-content: center;
-  top: 47px;
+  top: 30px;
   z-index: 9;
 }
 .nav-tabs::-webkit-scrollbar { display: none; }
@@ -223,7 +223,7 @@ html, body {
   background: transparent;
   border: none;
   border-right: 1px solid var(--lgray);
-  padding: 0.55rem clamp(0.6rem, 3vw, 1rem);
+  padding: 1rem clamp(1.5rem, 3vw, 1rem);
   cursor: pointer;
   color: var(--gray);
   transition: all 0.2s;
@@ -844,17 +844,7 @@ html, body {
   line-height: 1.9;
   font-style: italic;
 }
-.tape-part-name {
-  display: block;
-  font-size: 0.58rem;
-  color: #555;
-  letter-spacing: 3px;
-  font-style: normal;
-  text-transform: uppercase;
-  border-bottom: 1px solid #1a1a1a;
-  padding-bottom: 0.4rem;
-  margin-bottom: 0.8rem;
-}
+
 .tape-pause {
   display: block;
   color: #2a2a2a;
@@ -1525,7 +1515,10 @@ function renderTape() {
   const p = TAPE[st.tape];
   const html = p.txt.replace(/\n\n/g, '</p><p style="margin-top:0.6rem;">').replace(/\n/g, '<br>');
   const pause = p.pause ? `<span class="tape-pause">${p.pause}</span>` : '';
-  document.getElementById('tape-txt').innerHTML = `<span class="tape-part-name">${p.lbl}</span><p>${html}</p>${pause}`;
+  document.getElementById('tape-txt').innerHTML = ` <div class="susp-media">
+      ${makeVideoPlaceholder('PASHY', './pashy.jpeg')}
+    </div>
+    <p>${html}</p>${pause}`;
   document.getElementById('tp-prev').disabled = st.tape === 0;
   document.getElementById('tp-next').disabled = st.tape === TAPE.length - 1;
   document.getElementById('tp-ct').textContent = `${st.tape + 1} / ${TAPE.length}`;
