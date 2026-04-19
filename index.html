@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CASO PASHY · Questura di Milano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #8b0000;
+  --red2: #c0392b;
+  --red-glow: rgba(139,0,0,0.15);
+  --ink: #1a1208;
+  --ink2: #333;
+  --gray: #888;
+  --lgray: #e0e0e0;
+  --border: #bbb;
+  --bg: #fff;
+  --boxbg: #f8f8f8;
+  --gold: #8b6914;
+  --gold-light: #c8b060;
+  --green: #1a4a1a;
+  --green-glow: rgba(26,74,26,0.12);
+  --stripe: #c8c8c8;
+  --paper: #f9f7f2;
+}
+
+html, body {
+  font-family: 'Courier Prime', monospace;
+  background: #fff;
+  color: var(--ink2);
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── SCREENS ─── */
+.screen { display: none !important; }
+.screen.active { display: block !important; }
+
+/* ─── STRIPE ─── */
+.doc-stripe {
+  width: 100%;
+  height: 10px;
+  background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 5px, #fff 5px, #fff 7px);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════
+   TITLE SCREEN
+═══════════════════════════════ */
+#title-screen {
+  background: #fff;
+}
+#title-screen.active { display: flex !important; flex-direction: column; min-height: 100svh; }
+
+.title-inner {
+  flex: 1;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 6vw, 3.5rem);
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.qs-header { text-align: center; margin-bottom: 0.3rem; }
+.qs-name {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(1rem, 4vw, 1.7rem);
+  color: var(--ink);
+  letter-spacing: 1px;
+}
+.qs-sub {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.65rem, 2.5vw, 0.82rem);
+  color: var(--ink2);
+  margin-top: 2px;
+}
+.qs-line { border: none; border-top: 1.5px solid var(--border); margin: 0.9rem 0; }
+
+.rapporto-label {
+  text-align: center;
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.62rem, 2.5vw, 0.78rem);
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin: 0.8rem 0 0.4rem;
+}
+.caso-title {
+  text-align: center;
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 8vw, 2.6rem);
+  color: var(--ink);
+  letter-spacing: 2px;
+  margin-bottom: 0.2rem;
+}
+
+.case-intro-box {
+  border: 1.5px solid var(--border);
+  padding: clamp(1rem, 4vw, 1.4rem) clamp(1rem, 4vw, 2rem);
+  margin: 1.4rem 0;
+  background: #fff;
+  display: flex;
+  gap: clamp(1rem, 4vw, 3rem);
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.case-intro-box img {
+  max-height: 300px;
+  max-width: 100%;
+  width: auto;
+  object-fit: cover;
+}
+.case-intro-box p {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.78rem, 2.5vw, 0.83rem);
+  line-height: 1.9;
+  color: var(--ink2);
+  flex: 1;
+  min-width: 200px;
+}
+.case-intro-box strong { font-weight: 700; color: var(--ink); }
+
+.btn-start {
+  display: block;
+  margin: 1.8rem auto 0;
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  background: #fff;
+  color: var(--red);
+  border: 2px solid var(--red);
+  padding: 0.85rem 2.5rem;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  width: 100%;
+  max-width: 340px;
+}
+.btn-start:hover, .btn-start:active {
+  background: var(--red);
+  color: #fff;
+}
+
+/* ═══════════════════════════════
+   GAME SCREEN
+═══════════════════════════════ */
+#game-screen {
+  background: #f0ede6;
+  min-height: 100svh;
+}
+#game-screen.active { display: flex !important; flex-direction: column; }
+
+.game-topbar {
+  background: #1a1208;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 3px solid #8b6914;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.gtb-title {
+  font-family: 'Courier Prime', monospace;
+  color: var(--gold-light);
+  font-size: clamp(0.6rem, 2.5vw, 0.72rem);
+  letter-spacing: 3px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.prog-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.prog-chip {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.5rem, 2vw, 0.58rem);
+  letter-spacing: 1px;
+  border: 1px solid #555;
+  color: #555;
+  padding: 2px 6px;
+  transition: all 0.4s;
+}
+.prog-chip.done {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+.gtb-right {
+  font-family: 'Courier Prime', monospace;
+  color: #666;
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+/* NAV TABS */
+.nav-tabs {
+  background: #fff;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  position: sticky;
+  justify-content: center;
+  top: 47px;
+  z-index: 9;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.ntab {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.62rem, 2.5vw, 0.72rem);
+  letter-spacing: 1px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--lgray);
+  padding: 0.55rem clamp(0.6rem, 3vw, 1rem);
+  cursor: pointer;
+  color: var(--gray);
+  transition: all 0.2s;
+  position: relative;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ntab:hover { color: var(--ink2); background: #fafafa; }
+.ntab.active {
+  color: var(--ink);
+  font-weight: 700;
+  background: #f8f8f8;
+}
+.ntab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--red);
+}
+.ntab.solved-tab { color: var(--green); }
+.ntab.solved-tab::before {
+  content: '✓ ';
+  font-size: 0.7em;
+}
+
+.page-area {
+  flex: 1;
+  padding: clamp(8px, 3vw, 12px);
+  overflow: auto;
+}
+
+/* DOC PAGE */
+.doc-page {
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: clamp(1rem, 4vw, 2rem) clamp(0.8rem, 4vw, 2.5rem);
+  min-height: 400px;
+  position: relative;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.08);
+}
+.doc-stripe-top, .doc-stripe-bottom {
+  width: 100%;
+  height: 8px;
+  background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 5px, #fff 5px, #fff 7px);
+}
+.doc-stripe-top { margin-bottom: 1.2rem; }
+.doc-stripe-bottom { margin-top: 1.2rem; }
+
+/* SUSPECT PAGE */
+.sp-top {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 0.7rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.sp-susp-label {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.52rem, 2vw, 0.6rem);
+  color: var(--red);
+  letter-spacing: 3px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.sp-name {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 6vw, 1.9rem);
+  color: var(--ink);
+  letter-spacing: 2px;
+}
+
+/* VIDEO PLACEHOLDER */
+.video-placeholder {
+  width: 100%;
+  border: 2px dashed #333;
+  aspect-ratio: 16/9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 0.8rem;
+  overflow: hidden;
+  cursor: pointer;
+  max-width: 340px;
+  flex-shrink: 0;
+  background: #111 center/cover no-repeat;
+}
+.video-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg, transparent, transparent 2px, rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px
+    ),
+    linear-gradient(rgba(0,0,0,0.38), rgba(0,0,0,0.55));
+  pointer-events: none;
+}
+.video-play-btn {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--gold-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-light);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s;
+}
+.video-placeholder:hover .video-play-btn {
+  background: rgba(200,176,96,0.1);
+  transform: scale(1.1);
+}
+.video-placeholder-lbl {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.58rem;
+  color: #555;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.video-placeholder-name {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.7rem;
+  color: var(--gold-light);
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 2px;
+}
+.video-corner {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.52rem;
+  color: #333;
+  letter-spacing: 2px;
+}
+.video-rec-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.5rem;
+  color: var(--red);
+  letter-spacing: 2px;
+}
+.rec-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: blink 1.2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* SUSPECT LAYOUT */
+.susp-layout {
+  display: flex;
+  gap: clamp(1rem, 4vw, 2rem);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.susp-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 340px;
+}
+.susp-media img {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--border);
+}
+.susp-text { flex: 1; min-width: 200px; }
+
+.dep-label {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.52rem, 2vw, 0.6rem);
+  color: var(--red);
+  letter-spacing: 3px;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  margin-top: 0.2rem;
+}
+.dep-text {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.78rem, 2.5vw, 0.82rem);
+  line-height: 1.9;
+  color: var(--ink2);
+  border-left: 3px solid var(--border);
+  padding: 0.7rem 1rem;
+  background: #fafafa;
+}
+
+.puzzle-divider { border: none; border-top: 1px dashed var(--border); margin: 1.2rem 0; }
+
+.puzz-label {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.52rem, 2vw, 0.6rem);
+  color: var(--red);
+  letter-spacing: 3px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.puzz-q {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.78rem, 2.5vw, 0.82rem);
+  line-height: 1.8;
+  color: var(--ink2);
+  padding: 0.7rem 0.9rem;
+  border-left: 2px solid var(--red);
+  background: #fff8f8;
+  margin-bottom: 0.8rem;
+}
+
+.ans-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.ans-inp {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--ink2);
+  color: var(--ink);
+  padding: 6px 6px;
+  outline: none;
+  transition: border-color 0.2s;
+  min-width: 140px;
+  width: auto;
+}
+.ans-inp:focus { border-color: var(--ink); }
+.ans-inp.correct { border-color: var(--green); color: var(--green); }
+.ans-inp.wrong {
+  border-color: var(--red2);
+  color: var(--red2);
+  animation: shk 0.35s ease;
+}
+
+/* WRONG FEEDBACK — banner */
+.wrong-banner {
+  display: none;
+  background: #fff0f0;
+  border: 1.5px solid var(--red2);
+  border-left: 4px solid var(--red);
+  padding: 0.55rem 0.9rem;
+  margin: 0.5rem 0;
+  animation: fadeIn 0.2s ease;
+  text-align: center;
+}
+.wrong-banner.show { display: block; }
+.wrong-banner-txt {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.78rem;
+  color: var(--red);
+  letter-spacing: 1px;
+  font-style: italic;
+}
+.wrong-counter {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.62rem;
+  color: #aaa;
+  letter-spacing: 2px;
+  margin-top: 3px;
+}
+
+@keyframes shk {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-7px)}
+  40%{transform:translateX(7px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
+
+.btn-conf {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: clamp(0.62rem, 2.5vw, 0.68rem);
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  touch-action: manipulation;
+}
+.btn-conf:hover, .btn-conf:active { background: var(--red); }
+
+.reveal-box {
+  display: none;
+  border: 1.5px solid var(--green);
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(135deg, #f0fff0 0%, #e8f5e8 100%);
+  animation: revealPop 0.4s ease;
+}
+.reveal-box.show { display: block; }
+@keyframes revealPop {
+  from { opacity:0; transform:scale(0.97); }
+  to   { opacity:1; transform:scale(1); }
+}
+.rev-cat {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--green);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.rev-val {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.85rem, 3vw, 0.95rem);
+  color: var(--green);
+  font-weight: 700;
+}
+
+.solved-stamp {
+  display: none;
+  position: absolute;
+  top: 1.5rem;
+  right: 1rem;
+  border: 3px solid var(--green);
+  color: var(--green);
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(0.5rem, 2vw, 0.65rem);
+  letter-spacing: 4px;
+  padding: 5px 10px;
+  transform: rotate(-10deg);
+  opacity: 0.8;
+}
+.solved-stamp.show { display: block; }
+
+/* ═══════════════════════════════
+   RIDDLE LOADING SCREEN
+═══════════════════════════════ */
+#riddle-loading-screen {
+  background: #f9f7f2;
+  min-height: 100svh;
+}
+#riddle-loading-screen.active {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1.5rem;
+}
+
+.rl-typewriter {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+  color: var(--red);
+  letter-spacing: 3px;
+  font-weight: 700;
+  text-align: center;
+  min-height: 1.4rem;
+}
+.rl-doc-icon {
+  font-size: 2.5rem;
+  opacity: 0.15;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.15} 50%{opacity:0.35} }
+
+.rl-bar-wrap {
+  width: min(320px, 80vw);
+  border: 1px solid var(--border);
+  height: 4px;
+  background: #e0e0e0;
+}
+.rl-bar {
+  height: 100%;
+  width: 0;
+  background: var(--red);
+  transition: width 0.06s linear;
+}
+.rl-msg {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.65rem, 2.5vw, 0.72rem);
+  color: var(--gray);
+  letter-spacing: 2px;
+  text-align: center;
+  font-style: italic;
+  min-height: 1.2rem;
+}
+.rl-suspect-reveal {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.72rem, 3vw, 0.9rem);
+  color: var(--ink);
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.rl-suspect-reveal.visible { opacity: 1; }
+
+/* ═══════════════════════════════
+   NOTEBOOK (NB)
+═══════════════════════════════ */
+#nb-screen {
+  background: #1a1208;
+  min-height: 100svh;
+}
+#nb-screen.active { display: flex !important; flex-direction: column; }
+
+.nb-topbar {
+  background: #1a1208;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 3px solid var(--gold);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.nb-title-bar {
+  font-family: 'Courier Prime', monospace;
+  color: var(--gold-light);
+  font-size: clamp(0.6rem, 2.5vw, 0.72rem);
+  letter-spacing: 3px;
+  font-weight: 700;
+}
+.btn-nb-back {
+  font-family: 'Courier Prime', monospace;
+  background: transparent;
+  color: #888;
+  border: 1px solid #444;
+  padding: 4px 12px;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.btn-nb-back:hover { color: #ccc; border-color: #888; }
+
+.nb-doc {
+  background: #fff;
+  border: 1px solid var(--border);
+  margin: clamp(8px, 3vw, 12px);
+  padding: clamp(1rem, 4vw, 2rem) clamp(0.8rem, 4vw, 2.5rem);
+}
+.nb-heading {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+  color: var(--ink);
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 0.4rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+}
+.nb-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--lgray);
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.nb-cat {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.55rem, 2vw, 0.62rem);
+  color: var(--red);
+  letter-spacing: 3px;
+  font-weight: 700;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+.nb-line-wrap {
+  flex: 1;
+  border-bottom: 1px solid var(--ink2);
+  padding: 0 6px 2px;
+  min-height: 22px;
+  min-width: 120px;
+}
+.nb-ans {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.8rem, 2.5vw, 0.88rem);
+  color: var(--green);
+  font-weight: 700;
+}
+.nb-unk {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.72rem;
+  color: var(--lgray);
+  font-style: italic;
+  letter-spacing: 2px;
+}
+
+.verdict-area {
+  display: none;
+  border: 2px solid var(--red);
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+}
+.verdict-area.show { display: block; }
+.v-title {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.65rem;
+  color: var(--red);
+  letter-spacing: 3px;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+}
+.v-note {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.72rem, 2.5vw, 0.8rem);
+  color: var(--gray);
+  font-style: italic;
+  margin-bottom: 0.9rem;
+  line-height: 1.6;
+}
+.btn-verdict {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  font-size: clamp(0.65rem, 2.5vw, 0.75rem);
+  letter-spacing: 2px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+  touch-action: manipulation;
+}
+.btn-verdict:hover, .btn-verdict:active { background: #6a0000; }
+
+/* ═══════════════════════════════
+   PASHY TAPE
+═══════════════════════════════ */
+#pashy-screen {
+  min-height: 100svh;
+}
+#pashy-screen.active {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  gap: 1rem;
+}
+
+.tape-lbl-top {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.5rem, 2vw, 0.6rem);
+  letter-spacing: 4px;
+  color: #444;
+  text-align: center;
+}
+.tape-wrap {
+  border: 2px solid #2a2a2a;
+  max-width: 460px;
+  width: 100%;
+  padding: 1rem;
+}
+.tape-reels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  padding: 0 4px;
+}
+.reel {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  color: #444;
+}
+.tape-inner-lbl {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.58rem;
+  color: #333;
+  letter-spacing: 3px;
+}
+.tape-txt {
+  border: 1px solid #1a1a1a;
+  background: #080600;
+  padding: 1.2rem;
+  min-height: 160px;
+  color: var(--gold-light);
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.75rem, 2.5vw, 0.8rem);
+  line-height: 1.9;
+  font-style: italic;
+}
+.tape-part-name {
+  display: block;
+  font-size: 0.58rem;
+  color: #555;
+  letter-spacing: 3px;
+  font-style: normal;
+  text-transform: uppercase;
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+.tape-pause {
+  display: block;
+  color: #2a2a2a;
+  font-size: 0.7rem;
+  margin: 0.5rem 0;
+  font-style: normal;
+}
+.tape-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.6rem;
+}
+.btn-tape {
+  font-family: 'Courier Prime', monospace;
+  background: transparent;
+  color: #444;
+  border: 1px solid #222;
+  padding: 5px 12px;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.btn-tape:hover:not(:disabled) { border-color: #666; color: #888; }
+.btn-tape:disabled { opacity: 0.2; cursor: default; }
+.tape-ct {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.58rem;
+  color: #333;
+  letter-spacing: 2px;
+}
+
+.accusa-wrap {
+  max-width: 460px;
+  width: 100%;
+}
+.accusa-lbl {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.52rem, 2vw, 0.62rem);
+  color: #555;
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.accusa-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.accusa-inp {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(0.82rem, 3vw, 0.95rem);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: #0d0a05;
+  border: 1px solid #333;
+  color: var(--gold-light);
+  padding: 8px 10px;
+  flex: 1;
+  min-width: 180px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.accusa-inp:focus { border-color: #666; }
+.accusa-inp.corr { border-color: var(--green); color: var(--green); }
+.accusa-inp.err { border-color: var(--red2); animation: shk 0.3s; }
+.btn-accusa {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.btn-accusa:hover { background: #6a0000; }
+.accusa-err-msg {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.7rem;
+  color: var(--red2);
+  margin-top: 0.5rem;
+  text-align: center;
+  display: none;
+}
+.accusa-err-msg.show { display: block; }
+
+.tape-back-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.btn-back-tape {
+  font-family: 'Courier Prime', monospace;
+  background: transparent;
+  color: #555;
+  border: 1px solid #333;
+  padding: 5px 14px;
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.btn-back-tape:hover { color: #888; border-color: #555; }
+
+/* ═══════════════════════════════
+   FINAL LOADING SCREEN
+═══════════════════════════════ */
+#loading-screen {
+  background: #fff;
+  min-height: 100svh;
+}
+#loading-screen.active {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  gap: 1rem;
+}
+.loading-title {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(0.58rem, 2vw, 0.65rem);
+  color: var(--red);
+  letter-spacing: 4px;
+  text-align: center;
+}
+.loading-bar-wrap {
+  width: min(300px, 80vw);
+  border: 1px solid var(--border);
+  height: 6px;
+  background: #f0f0f0;
+}
+.loading-bar {
+  height: 100%;
+  width: 0;
+  background: var(--red);
+  transition: width 0.08s linear;
+}
+.loading-msg {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.65rem, 2.5vw, 0.72rem);
+  color: var(--gray);
+  letter-spacing: 2px;
+  text-align: center;
+  min-height: 1.2rem;
+}
+
+/* ═══════════════════════════════
+   FINALE
+═══════════════════════════════ */
+#finale-screen {
+  background: #fff;
+  min-height: 100svh;
+}
+#finale-screen.active { display: flex !important; flex-direction: column; }
+.finale-stripe-top {
+  width: 100%;
+  height: 14px;
+  background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 6px, #fff 6px, #fff 8px);
+  flex-shrink: 0;
+}
+.finale-body {
+  padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 6vw, 3rem);
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+.fin-section-label {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.62rem, 2.5vw, 0.72rem);
+  color: var(--ink);
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 0.1rem;
+}
+.fin-diamond { font-size: 0.65rem; color: var(--ink); }
+.fin-line { border: none; border-top: 2px solid var(--ink); margin: 0.3rem 0 1rem; }
+.fin-conf-title {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 0.2rem;
+}
+.fin-conf-sub {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.62rem, 2vw, 0.7rem);
+  color: var(--gray);
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+}
+.fin-box {
+  border: 1.5px solid var(--border);
+  padding: clamp(1rem, 4vw, 1.5rem) clamp(0.8rem, 4vw, 2rem);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  display: flex;
+  gap: clamp(1rem, 4vw, 3rem);
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.fin-box img {
+  max-height: 300px;
+  max-width: 100%;
+  width: auto;
+  object-fit: cover;
+}
+.fin-box p {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.78rem, 2.5vw, 0.82rem);
+  line-height: 2;
+  color: var(--ink2);
+  flex: 1;
+  min-width: 180px;
+}
+.fin-box strong { font-weight: 700; color: var(--ink); }
+.fin-confessa {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 4vw, 1.1rem);
+  color: var(--red);
+  text-align: center;
+  letter-spacing: 4px;
+  margin: 1.2rem 0;
+}
+.fin-divider2 { border: none; border-top: 1.5px solid var(--border); margin: 1.5rem 0; }
+.fin-birthday {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: clamp(1rem, 5vw, 1.4rem);
+  color: var(--red);
+  text-align: center;
+  letter-spacing: 3px;
+}
+.fin-restart {
+  display: block;
+  margin: 2rem auto 0;
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  background: #fff;
+  color: var(--gray);
+  border: 1px solid var(--lgray);
+  padding: 0.65rem 1.5rem;
+  font-size: clamp(0.6rem, 2vw, 0.65rem);
+  letter-spacing: 2px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.fin-restart:hover { color: var(--ink); border-color: var(--border); }
+
+/* ─── MOBILE SPECIFIC TWEAKS ─── */
+@media (max-width: 500px) {
+  .susp-media { max-width: 100%; }
+  .video-placeholder { max-width: 100%; }
+  .susp-media img { max-width: 100%; }
+  .case-intro-box img { max-height: 200px; }
+}
+</style>
+</head>
+<body>
+<div id="root">
+
+<!-- ══ TITLE ══ -->
+<div id="title-screen" class="screen active">
+  <div class="doc-stripe"></div>
+  <div class="title-inner">
+    <div class="qs-header">
+      <div class="qs-name">QUESTURA DI MILANO</div>
+      <div class="qs-sub">Divisione Investigativa Speciale: Omicidi Irrisolti</div>
+    </div>
+    <hr class="qs-line">
+    <div class="rapporto-label">RAPPORTO POLIZIA</div>
+    <div class="caso-title">«CASO PASHY»</div>
+    <hr class="qs-line">
+    <div class="case-intro-box">
+      <img src="pashy-gaia.jpg" alt="Pashy e Gaia">
+      <p>
+        Il corpo del signor Andrea Sala,<br>
+        più comunemente noto come Pashy o Pashyno,<br>
+        <strong>è stato ritrovato senza vita a mezzanotte.</strong><br><br>
+        Non è stata rinvenuta l'arma del delitto,<br>
+        nè tanto meno è noto il luogo o il movente.<br>
+        I tre sospettati chiave sono in questa stanza, ma sono reticenti.<br>
+        <strong>Dicono frasi sconnesse e facciamo fatica a trovarne un senso logico.</strong><br><br>
+        Ci serve il tuo aiuto per risolvere il caso<br>
+        e rendere giustizia al povero Pashyno.
+      </p>
+    </div>
+    <button class="btn-start" onclick="startGame()">Apri il Fascicolo &rarr;</button>
+  </div>
+  <div class="doc-stripe"></div>
+</div>
+
+<!-- ══ RIDDLE LOADING ══ -->
+<div id="riddle-loading-screen" class="screen">
+  <div class="rl-doc-icon">📁</div>
+  <div class="rl-typewriter" id="rl-typewriter"></div>
+  <div class="rl-bar-wrap">
+    <div class="rl-bar" id="rl-bar"></div>
+  </div>
+  <div class="rl-msg" id="rl-msg"></div>
+  <div class="rl-suspect-reveal" id="rl-reveal"></div>
+</div>
+
+<!-- ══ GAME ══ -->
+<div id="game-screen" class="screen">
+  <div class="game-topbar">
+    <div class="gtb-title">CASO PASHY</div>
+    <div class="prog-row">
+      <span class="prog-chip" id="pi0">LUOGO</span>
+      <span class="prog-chip" id="pi1">ARMA</span>
+      <span class="prog-chip" id="pi2">MOVENTE</span>
+    </div>
+    <div class="gtb-right">RISERVATO</div>
+  </div>
+  <div class="nav-tabs">
+    <button class="ntab active" id="nv-isa" onclick="selectS('isa')">ISA</button>
+    <button class="ntab" id="nv-peak" onclick="selectS('peak')">PEAK</button>
+    <button class="ntab" id="nv-gio" onclick="selectS('gio')">GIO</button>
+    <button class="ntab" id="nv-pashy" onclick="showPashy()" style="opacity:.3;pointer-events:none;" disabled>NASTRO PASHY</button>
+  </div>
+  <div class="page-area">
+    <div class="doc-page" id="doc-page">
+      <div class="doc-stripe-top"></div>
+      <div id="page-content"></div>
+      <div class="doc-stripe-bottom"></div>
+      <div class="solved-stamp" id="solved-stamp">RISOLTO</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PASHY TAPE ══ -->
+<div id="pashy-screen" class="screen">
+  <div class="tape-lbl-top">NASTRO RECUPERATO · POLIZIA SCIENTIFICA</div>
+  <div class="tape-wrap">
+    <div class="tape-reels">
+      <div class="reel">&#9699;</div>
+      <div class="tape-inner-lbl">REC · IN CORSO</div>
+      <div class="reel">&#9699;</div>
+    </div>
+    <div class="tape-txt" id="tape-txt"></div>
+    <div class="tape-nav">
+      <button class="btn-tape" id="tp-prev" onclick="changeTape(-1)">&#9664; PREC</button>
+      <span class="tape-ct" id="tp-ct">1 / 3</span>
+      <button class="btn-tape" id="tp-next" onclick="changeTape(1)">SUCC &#9654;</button>
+    </div>
+  </div>
+
+  <div class="accusa-wrap" id="accusa-wrap" style="display:none;">
+    <div class="accusa-lbl">CHI HA UCCISO PASHY? · SCRIVI IL NOME DEL COLPEVOLE</div>
+    <div class="accusa-row">
+      <input class="accusa-inp" id="accusa-inp" type="text" placeholder="NOME COGNOME..."
+        onkeydown="if(event.key==='Enter')checkAccusa()">
+      <button class="btn-accusa" onclick="checkAccusa()">ACCUSA</button>
+    </div>
+    <div class="accusa-err-msg" id="accusa-err">Nome non corretto. Riprova, ispettore.</div>
+  </div>
+
+  <div class="tape-back-row">
+    <button class="btn-back-tape" onclick="showGame()">← Torna all'indagine</button>
+  </div>
+</div>
+
+<!-- ══ LOADING (finale) ══ -->
+<div id="loading-screen" class="screen">
+  <div class="loading-title">ELABORAZIONE VERDETTO IN CORSO...</div>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar" id="load-bar"></div>
+  </div>
+  <div class="loading-msg" id="load-msg">Analisi delle prove...</div>
+</div>
+
+<!-- ══ FINALE ══ -->
+<div id="finale-screen" class="screen">
+  <div class="finale-stripe-top"></div>
+  <div class="finale-body">
+    <div class="fin-section-label">
+      <span class="fin-diamond">&#9670;</span> DEPOSIZIONE FINALE <span class="fin-diamond">&#9670;</span>
+    </div>
+    <hr class="fin-line">
+    <div class="fin-conf-title">CONFESSIONE DI GAIA</div>
+    <div class="fin-conf-sub">TRASCRITTA DALLA POLIZIA SCIENTIFICA</div>
+    <div class="fin-box">
+      <img src="gaia-arrestata-ai.png" alt="Gaia arrestata" style="max-height:300px;">
+      <p>
+        <strong>Questo non è un regalo di compleanno.</strong><br><br>
+        I testimoni non sono tuoi amici.<br>
+        <strong>Sono le tue guardie carcerarie.</strong><br><br>
+        Gli indizi non sono enigmi.<br>
+        <strong>Sono i tuoi ricordi frammentati.</strong><br><br>
+        <strong>Pashy non è morto oggi.</strong><br><br>
+        Ti sei rinchiusa in questa stanza dalle 00:00 del tuo compleanno,<br>
+        condannata a rivivere questa ricerca<br>
+        <strong>finché non ammetterai la verità.</strong>
+      </p>
+    </div>
+    <div class="fin-confessa">CONFESSA.</div>
+    <hr class="fin-divider2">
+    <div class="fin-birthday">BUON COMPLEANNO, KILLER.</div>
+    <button class="fin-restart" onclick="showTitle()">← Ricomincia dall'inizio</button>
+  </div>
+  <div class="finale-stripe-top"></div>
+</div>
+
+</div><!-- #root -->
+
+<script>
+const S = {
+  isa: {
+    name: "ISA", img: "pashy-isa.jpeg",
+    dep: `Sono stata io a trovare Pashy. Era mezzanotte passata. Stavo rientrando dagli allenamenti dell'Amatese. Non è importante sapere il motivo per cui ero lì…\n\nHo sentito un rumore da sotto, un urlo. Ho provato a vedere attraverso la vetrata ma nulla. Ho aperto la porta, sono salita e l'ho trovato a terra.\n\nHo chiamato subito. Non c'era nessun altro. Non avevo toccato niente. Le mie impronte non possono essere lì dentro. Ci sono stata più volte con voi in quella stanza, è vero, ma mai da sola. Non so perché il posto fosse vuoto.\n\nMa lo giuro, non sono stata io, non avevo nessun motivo per farlo.`,
+    answer: "JUMANJI", reveals: "luogo", revCat: "LUOGO DEL DELITTO", revVal: "La bellissima saletta del Jumanji"
+  },
+  peak: {
+    name: "PEAK", img: "pashy-peak.jpeg",
+    dep: `Pashy e io eravamo amici da anni. Mi confidava tutto anche se da fuori non sembrava.\n\nQuella notte ero a casa. Da solo sì, ma a casa. Non sono uscito. Ho bevuto un goccio e ho provato ad addormentarmi. Ho parlato un po' con SIRI ma non riuscivo a chiudere occhio, ero agitato.\n\nPashy ultimamente mi cantava spesso quella canzone di Marra... Non so cosa volesse significare. Non so cosa tramasse...\n\nSo solo che Pashy aveva paura di qualcuno. Non mi ha detto di chi. Era spaventato.`,
+    answer: "MARGARITA", reveals: "arma", revCat: "ARMA DEL DELITTO", revVal: "Margarita (come la canzone di Marracash)"
+  },
+  gio: {
+    name: "GIO", img: "pashy-gio.jpeg",
+    dep: `So che ti farà male quello che sto per dirti…\n\nMa io non ero lì. Non c'entro niente. Pashy e io avevamo chiuso da mesi. Da un giorno all'altro ha troncato senza dire il perché, forse aveva paura.\n\nSono sempre stata innamorata di lui ma lui non ha mai ricambiato fino in fondo evidentemente. Nessun messaggio, nessuna chiamata. La nostra storia non so se può essere rilevante al caso.\n\nQuella notte però ero fuori città, lo giuro.`,
+    answer: "GELOSIA", reveals: "movente", revCat: "MOVENTE", revVal: "Gelosia e amore non corrisposto"
+  }
+};
+
+const TAPE = [
+  {
+    lbl: "PARTE PRIMA — TENERA",
+    txt: `"Ciao.\n\nNon so se guarderai mai questo. Spero di no in realtà. Spero che domani mattina ci ridiamo su.\n\nMa nel caso.\n\nRipensavo a quegli abbracci in birreria, a mangiare i bocconcini di pollo e a parlare del niente. Ci penso spesso. Non te l'ho mai detto perché sembrava stupido. Non lo era.\n\nSei speciale per me. Forse lo sai. Forse no. Volevo dirtelo in faccia. Non riuscivo."`,
+    pause: null
+  },
+  {
+    lbl: "PARTE SECONDA — LA SVOLTA",
+    txt: `"C'è una cosa che non torna. L'ho capita stanotte.\n\nIsa, Peak, Gio. Li conosco tutti, chi da mesi, chi da anni. Ma stasera ognuno di loro ha detto una cosa diversa. E le cose diverse non tornano.\n\nQualcuno ha mentito. Forse tutti.\n\nLa cosa che non capisco: perché proteggono qualcuno?\n\nHo un'idea. Ma ho bisogno che tu ci arrivi da sola. Sei l'unica in quella stanza che non ha niente da nascondere."`,
+    pause: null
+  },
+  {
+    lbl: "PARTE TERZA — IL FINALE",
+    txt: `"Sai cosa mi ha sempre colpito di te?\n\nChe quando entri in una stanza la gente smette di fingere.\n\nNon so se lo sai. Probabilmente no.\n\nGuarda i tuoi amici adesso. Guarda le loro facce.\n\nQualcuno non sta reggendo lo sguardo.\n\nQuello è il tuo indizio."`,
+    pause: null
+  }
+];
+
+const RIDDLE_MSGS = [
+  "Acquisizione deposizione in corso...",
+  "Verifica documenti riservati...",
+  "Accesso al fascicolo successivo...",
+  "Caricamento testimonianza..."
+];
+const LOAD_MSGS = ["Analisi delle prove...", "Verifica degli alibi...", "Confronto delle deposizioni...", "Identificazione del colpevole...", "Preparazione del verdetto...", "Archiviazione del caso..."];
+
+// wrong attempt counts per suspect
+let wrongCounts = { isa: 0, peak: 0, gio: 0 };
+
+let st = {
+  cur: 'isa',
+  solved: { isa: false, peak: false, gio: false },
+  findings: { luogo: null, arma: null, movente: null },
+  tape: 0
+};
+
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id + '-screen').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startGame() {
+  showRiddleLoading('isa', () => {
+    go('game');
+    renderPage('isa');
+  });
+}
+
+function showRiddleLoading(nextSuspect, cb) {
+  go('riddle-loading');
+  const bar = document.getElementById('rl-bar');
+  const msg = document.getElementById('rl-msg');
+  const tw = document.getElementById('rl-typewriter');
+  const reveal = document.getElementById('rl-reveal');
+
+  bar.style.width = '0';
+  reveal.classList.remove('visible');
+  reveal.textContent = '';
+
+  const msgs = [...RIDDLE_MSGS].sort(() => Math.random() - 0.5);
+  let pct = 0, msgIdx = 0;
+  msg.textContent = msgs[0];
+
+  // typewriter for label
+  const label = nextSuspect ? `ACCESSO DEPOSIZIONE: ${S[nextSuspect]?.name || '???'}` : 'ELABORAZIONE FASCICOLO...';
+  tw.textContent = '';
+  let ci = 0;
+  const twIv = setInterval(() => {
+    if (ci < label.length) { tw.textContent += label[ci++]; }
+    else clearInterval(twIv);
+  }, 38);
+
+  const iv = setInterval(() => {
+    pct += 2.2;
+    bar.style.width = Math.min(pct, 100) + '%';
+    const ni = Math.min(Math.floor(pct / 100 * msgs.length), msgs.length - 1);
+    if (ni !== msgIdx) { msgIdx = ni; msg.textContent = msgs[msgIdx]; }
+    if (pct >= 75 && nextSuspect && !reveal.classList.contains('visible')) {
+      reveal.textContent = `SOSPETTATO: ${S[nextSuspect].name}`;
+      reveal.classList.add('visible');
+    }
+    if (pct >= 100) {
+      clearInterval(iv);
+      setTimeout(cb, 350);
+    }
+  }, 35);
+}
+
+function showGame() { go('game'); renderPage(st.cur); }
+function showTitle() { go('title'); }
+function showPashy() { st.tape = 0; renderTape(); go('pashy'); }
+
+function selectS(id) {
+  st.cur = id;
+  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('active'));
+  document.getElementById('nv-' + id).classList.add('active');
+
+  if (!st.solved[id]) {
+    // show riddle loading before switching to a new unsolved suspect
+    showRiddleLoading(id, () => {
+      go('game');
+      renderPage(id);
+      document.getElementById('nv-' + id).classList.add('active');
+    });
+  } else {
+    renderPage(id);
+  }
+}
+
+function makeVideoPlaceholder(name, img) {
+  return `
+  <div class="video-placeholder" style="background-image:url('${img}');" title="Video placeholder – da sostituire con il video originale di ${name}">
+    <div class="video-corner">CAM · 01</div>
+    <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
+    <div class="video-play-btn">&#9654;</div>
+    <div class="video-placeholder-lbl">DEPOSIZIONE VIDEO</div>
+    <div class="video-placeholder-name">${name}</div>
+  </div>`;
+}
+
+function renderPage(id) {
+  const s = S[id];
+  const solved = st.solved[id];
+  const depHtml = s.dep.replace(/\n\n/g, '</p><p style="margin-top:0.5rem;">').replace(/\n/g, '<br>');
+  let puzzHtml = '';
+  const wc = wrongCounts[id] || 0;
+  const wrongMsg = wc > 0 ? `<div class="wrong-banner" id="wb-${id}"><div class="wrong-banner-txt">Risposta errata, ispettore. Rianalizza la deposizione.</div><div class="wrong-counter">TENTATIVI FALLITI: ${wc}</div></div>` : `<div class="wrong-banner" id="wb-${id}"></div>`;
+
+  if (!solved) {
+    puzzHtml = `
+    ${wrongMsg}
+    <div class="ans-row">
+      <input class="ans-inp" id="ai-${id}" type="text" placeholder="_ _ _ _ _ _" onkeydown="if(event.key==='Enter')checkA('${id}')">
+      <button class="btn-conf" onclick="checkA('${id}')">Conferma</button>
+    </div>
+    <div class="reveal-box" id="rb-${id}"></div>`;
+  } else {
+    puzzHtml = `<div class="reveal-box show"><div class="rev-cat">${s.revCat}</div><div class="rev-val">${s.revVal}</div></div>`;
+  }
+
+  document.getElementById('page-content').innerHTML = `
+  <div class="sp-top">
+    <div class="sp-susp-label">DEPOSIZIONE · SOSPETTATO ${Object.keys(S).indexOf(id) + 1} DI 3</div>
+    <div class="sp-name">${s.name}</div>
+  </div>
+  <div class="susp-layout">
+    <div class="susp-media">
+      ${makeVideoPlaceholder(s.name, s.img)}
+    </div>
+    <div class="susp-text">
+      <div class="dep-label">DEPOSIZIONE UFFICIALE</div>
+      <div class="dep-text"><p>${depHtml}</p></div>
+      <hr class="puzzle-divider">
+      ${puzzHtml}
+    </div>
+  </div>`;
+
+  const st2 = document.getElementById('solved-stamp');
+  solved ? st2.classList.add('show') : st2.classList.remove('show');
+
+  // restore wrong banner if needed
+  if (!solved && wc > 0) {
+    const wb = document.getElementById('wb-' + id);
+    if (wb) wb.classList.add('show');
+  }
+}
+
+function checkA(id) {
+  const s = S[id];
+  const inp = document.getElementById('ai-' + id);
+  const val = inp.value.trim().toUpperCase();
+  if (val === s.answer) {
+    inp.classList.add('correct');
+    inp.disabled = true;
+    st.solved[id] = true;
+    st.findings[s.reveals] = s.revVal;
+    const rb = document.getElementById('rb-' + id);
+    if (rb) {
+      rb.classList.add('show');
+      rb.innerHTML = `<div class="rev-cat">${s.revCat}</div><div class="rev-val">${s.revVal}</div>`;
+    }
+    const wb = document.getElementById('wb-' + id);
+    if (wb) wb.classList.remove('show');
+    document.getElementById('solved-stamp').classList.add('show');
+    document.getElementById('nv-' + id).classList.add('solved-tab');
+    const pi = ['pi0', 'pi1', 'pi2'][Object.keys(S).indexOf(id)];
+    document.getElementById(pi).classList.add('done');
+    if (st.solved.isa && st.solved.peak && st.solved.gio) {
+      const pb = document.getElementById('nv-pashy');
+      pb.disabled = false;
+      pb.style.opacity = '1';
+      pb.style.pointerEvents = '';
+    }
+  } else {
+    wrongCounts[id] = (wrongCounts[id] || 0) + 1;
+    inp.classList.remove('wrong');
+    void inp.offsetWidth; // reflow to restart animation
+    inp.classList.add('wrong');
+    setTimeout(() => inp.classList.remove('wrong'), 400);
+
+    // show/update wrong banner
+    const wb = document.getElementById('wb-' + id);
+    if (wb) {
+      wb.innerHTML = `<div class="wrong-banner-txt">Risposta errata, ispettore. Rianalizza la deposizione.</div><div class="wrong-counter">TENTATIVI FALLITI: ${wrongCounts[id]}</div>`;
+      wb.classList.add('show');
+    }
+    inp.value = '';
+    inp.focus();
+  }
+}
+
+function updateNb() {
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = val ? `<span class="nb-ans">${val}</span>` : `<span class="nb-unk">in attesa...</span>`;
+  };
+  set('nb-luogo', st.findings.luogo);
+  set('nb-arma', st.findings.arma);
+  set('nb-movente', st.findings.movente);
+  const all = st.solved.isa && st.solved.peak && st.solved.gio;
+  const col = document.getElementById('nb-colpevole');
+  if (col) col.innerHTML = all ? `<span class="nb-ans">???</span>` : `<span class="nb-unk">in attesa...</span>`;
+  const va = document.getElementById('verdict-area');
+  if (va) all ? va.classList.add('show') : va.classList.remove('show');
+}
+
+function renderTape() {
+  const p = TAPE[st.tape];
+  const html = p.txt.replace(/\n\n/g, '</p><p style="margin-top:0.6rem;">').replace(/\n/g, '<br>');
+  const pause = p.pause ? `<span class="tape-pause">${p.pause}</span>` : '';
+  document.getElementById('tape-txt').innerHTML = `<span class="tape-part-name">${p.lbl}</span><p>${html}</p>${pause}`;
+  document.getElementById('tp-prev').disabled = st.tape === 0;
+  document.getElementById('tp-next').disabled = st.tape === TAPE.length - 1;
+  document.getElementById('tp-ct').textContent = `${st.tape + 1} / ${TAPE.length}`;
+  const aw = document.getElementById('accusa-wrap');
+  aw.style.display = st.tape === TAPE.length - 1 ? '' : 'none';
+}
+
+function changeTape(d) {
+  st.tape = Math.max(0, Math.min(TAPE.length - 1, st.tape + d));
+  renderTape();
+}
+
+function checkAccusa() {
+  const inp = document.getElementById('accusa-inp');
+  const val = inp.value.trim().toUpperCase().replace(/\s+/g, ' ');
+  const err = document.getElementById('accusa-err');
+  if (val === 'GAIA POGLIANI') {
+    inp.classList.add('corr');
+    inp.disabled = true;
+    err.classList.remove('show');
+    setTimeout(startLoading, 600);
+  } else {
+    inp.classList.remove('err');
+    void inp.offsetWidth;
+    inp.classList.add('err');
+    err.classList.add('show');
+    setTimeout(() => inp.classList.remove('err'), 400);
+  }
+}
+
+function startLoading() {
+  go('loading');
+  const bar = document.getElementById('load-bar');
+  const msg = document.getElementById('load-msg');
+  let pct = 0, msgIdx = 0;
+  msg.textContent = LOAD_MSGS[0];
+  const iv = setInterval(() => {
+    pct += 1.4;
+    bar.style.width = Math.min(pct, 100) + '%';
+    const newIdx = Math.min(Math.floor(pct / 100 * LOAD_MSGS.length), LOAD_MSGS.length - 1);
+    if (newIdx !== msgIdx) { msgIdx = newIdx; msg.textContent = LOAD_MSGS[msgIdx]; }
+    if (pct >= 100) { clearInterval(iv); setTimeout(() => go('finale'), 500); }
+  }, 40);
+}
+
+// Init
+renderPage('isa');
+</script>
+</body>
+</html>
