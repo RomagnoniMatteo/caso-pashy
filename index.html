@@ -461,7 +461,7 @@ html, body {
   gap: 8px;
   align-items: center;
   margin-bottom: 0.7rem;
-  justify-content: center;
+  justify-content: start;
   flex-wrap: wrap;
 }
 .ans-inp {
@@ -1416,6 +1416,7 @@ function renderPage(id) {
     puzzHtml = `
     ${wrongMsg}
     <div class="ans-row">
+      <span>${s.revCat}:</span>
       <input class="ans-inp" id="ai-${id}" type="text" placeholder="_ _ _ _ _ _" onkeydown="if(event.key==='Enter')checkA('${id}')">
       <button class="btn-conf" onclick="checkA('${id}')">Conferma</button>
     </div>
