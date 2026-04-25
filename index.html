@@ -450,6 +450,44 @@ html, body {
   margin-bottom: 0.4rem;
   margin-top: 0.2rem;
 }
+
+/* ─── TRASCRIZIONE TOGGLE ─── */
+.btn-trascrizione {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.58rem, 2vw, 0.65rem);
+  letter-spacing: 2px;
+  color: var(--red);
+  background: transparent;
+  border: 1px dashed var(--red);
+  padding: 5px 12px;
+  cursor: pointer;
+  margin-bottom: 0.7rem;
+  transition: all 0.18s;
+  touch-action: manipulation;
+}
+.btn-trascrizione:hover { background: var(--red-glow); }
+.btn-trascrizione .tr-arrow {
+  display: inline-block;
+  transition: transform 0.2s;
+  font-style: normal;
+  font-size: 0.7rem;
+}
+.btn-trascrizione.open .tr-arrow { transform: rotate(90deg); }
+
+.trascrizione-collapsible {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+  opacity: 0;
+}
+.trascrizione-collapsible.open {
+  max-height: 2000px;
+  opacity: 1;
+}
+
 .dep-text {
   font-family: 'Courier Prime', monospace;
   font-size: clamp(0.78rem, 2.5vw, 0.82rem);
@@ -1483,7 +1521,6 @@ function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id + '-screen').classList.add('active');
   window.scrollTo(0, 0);
-  // update TG clock
   const oraEl = document.getElementById('tg-ora-' + id.replace('tg','').replace('-',''));
   if (oraEl) oraEl.textContent = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'});
 }
@@ -1491,6 +1528,17 @@ function goTo(id) {
 function setTgOra(elId) {
   const el = document.getElementById(elId);
   if (el) el.textContent = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'});
+}
+
+// ─── TRASCRIZIONE TOGGLE ─────────────────────────────────
+function toggleTrascrizione(id) {
+  const btn = document.getElementById('btn-tr-' + id);
+  const panel = document.getElementById('tr-panel-' + id);
+  if (!btn || !panel) return;
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.querySelector('.tr-txt').textContent = isOpen ? 'MOSTRA TRASCRIZIONE VERBALE' : 'NASCONDI TRASCRIZIONE';
 }
 
 // ─── RIDDLE LOADING ──────────────────────────────────────
@@ -1540,10 +1588,11 @@ function startRiddleLoading(suspectId) {
 // ─── RENDER INDOVINELLO ──────────────────────────────────
 function renderIndovinello(id) {
   const s = S[id];
-  const solved = wrongCounts[id + '_solved'] || false;
   const depHtml = s.dep.replace(/\n\n/g, '</p><p style="margin-top:0.5rem;">').replace(/\n/g, '<br>');
   const wc = wrongCounts[id] || 0;
-  const wrongMsg = wc > 0 ? `<div class="wrong-banner show" id="wb-${id}"><div class="wrong-banner-txt">Risposta errata, ispettore. Rianalizza la deposizione.</div><div class="wrong-counter">TENTATIVI FALLITI: ${wc}</div></div>` : `<div class="wrong-banner" id="wb-${id}"></div>`;
+  const wrongMsg = wc > 0
+    ? `<div class="wrong-banner show" id="wb-${id}"><div class="wrong-banner-txt">Risposta errata, ispettore. Rianalizza la deposizione.</div><div class="wrong-counter">TENTATIVI FALLITI: ${wc}</div></div>`
+    : `<div class="wrong-banner" id="wb-${id}"></div>`;
 
   let puzzHtml = '';
   if (!wrongCounts[id + '_solved']) {
@@ -1561,7 +1610,13 @@ function renderIndovinello(id) {
 
   document.getElementById('ind-text-' + id).innerHTML = `
     <div class="dep-label">DEPOSIZIONE UFFICIALE</div>
-    <div class="dep-text"><p>${depHtml}</p></div>
+    <button class="btn-trascrizione" id="btn-tr-${id}" onclick="toggleTrascrizione('${id}')">
+      <em class="tr-arrow">▶</em>
+      <span class="tr-txt">MOSTRA TRASCRIZIONE VERBALE</span>
+    </button>
+    <div class="trascrizione-collapsible" id="tr-panel-${id}">
+      <div class="dep-text"><p>${depHtml}</p></div>
+    </div>
     <hr class="puzzle-divider">
     ${puzzHtml}
   `;
@@ -1590,7 +1645,6 @@ function checkA(id) {
     const stamp = document.getElementById('solved-stamp-' + id);
     if (stamp) stamp.classList.add('show');
 
-    // After delay, move to next TG
     const nextMap = { isa: 'tg1', peak: 'tg2', gio: 'tg3' };
     setTimeout(() => {
       setTgOra('tg-ora-' + nextMap[id].replace('tg',''));
@@ -1676,7 +1730,6 @@ function startLoading() {
 function resetGame() {
   wrongCounts = { isa: 0, peak: 0, gio: 0 };
   tapeIdx = 0;
-  // reset solved stamps and rendered text
   ['isa','peak','gio'].forEach(id => {
     wrongCounts[id + '_solved'] = false;
     const stamp = document.getElementById('solved-stamp-' + id);
@@ -1690,23 +1743,11 @@ function resetGame() {
 }
 
 // ─── VIDEO MODAL ─────────────────────────────────────────
-/*
-  Ogni .video-vert accetta:
-    data-video-src="https://youtube.com/shorts/VIDEOID"  ← YouTube Shorts
-    data-video-src="https://youtu.be/VIDEOID"            ← youtu.be
-    data-video-src="https://www.youtube.com/watch?v=ID"  ← YouTube normale
-    data-video-src="./file.mp4"                          ← file locale
-  Se data-video-src è assente → placeholder "video non disponibile".
-*/
-
 function ytVideoId(url) {
-  // Shorts:  youtube.com/shorts/ID
   let m = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/);
   if (m) return m[1];
-  // youtu.be/ID
   m = url.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
   if (m) return m[1];
-  // youtube.com/watch?v=ID
   m = url.match(/[?&]v=([A-Za-z0-9_-]{11})/);
   if (m) return m[1];
   return null;
@@ -1718,13 +1759,11 @@ function openVideoModal(el) {
   const label = el.dataset.videoLabel || el.querySelector('.video-placeholder-lbl')?.textContent  || 'DEPOSIZIONE VIDEO';
   const img   = (el.style.backgroundImage || '').replace(/url\(["']?|["']?\)/g, '');
 
-
   const box = document.getElementById('vm-video-box');
 
   if (src) {
     const ytId = ytVideoId(src);
     if (ytId) {
-      // YouTube embed — autoplay, mute=0, rel=0, modestbranding
       const embedUrl = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
       box.innerHTML = `<iframe
         src="${embedUrl}"
@@ -1734,7 +1773,6 @@ function openVideoModal(el) {
         loading="lazy"
       ></iframe>`;
     } else {
-      // File locale / altro URL diretto
       box.innerHTML = `<video src="${src}" controls autoplay playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>`;
     }
   } else {
@@ -1756,22 +1794,17 @@ function closeVideoModal(e, force) {
   const modal = document.getElementById('video-modal');
   modal.classList.remove('open');
   document.body.style.overflow = '';
-  // ferma video locale
   const vid = modal.querySelector('video');
   if (vid) vid.pause();
-  // ferma iframe YT rimuovendolo (unico modo affidabile cross-browser)
   const box = document.getElementById('vm-video-box');
   const ifr = box.querySelector('iframe');
   if (ifr) ifr.src = '';
 }
 
-// ESC to close
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeVideoModal(null, true);
 });
 
-// Attach click handlers to all .video-vert elements (including dynamically rendered ones)
-// Use event delegation on body
 document.body.addEventListener('click', e => {
   const vv = e.target.closest('.video-vert');
   if (vv && !e.target.closest('#video-modal')) {
