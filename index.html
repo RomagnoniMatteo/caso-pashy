@@ -856,10 +856,24 @@ html, body {
   text-align: center;
   display: none;
 }
-.accusa-err-msg.show { display: block; }
+/* ─── TRASCRIZIONE TOGGLE — variante dark (nastro Pashy) ─── */
+.btn-trascrizione-dark {
+  color: var(--gold-light) !important;
+  border-color: #3a3020 !important;
+  background: transparent !important;
+}
+.btn-trascrizione-dark:hover { background: rgba(200,176,96,0.08) !important; }
 
-/* ═══════════════════════════════
-   FINAL LOADING SCREEN
+.tape-txt-inner {
+  color: var(--gold-light);
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.75rem, 2.5vw, 0.8rem);
+  line-height: 1.9;
+  font-style: italic;
+  padding-top: 0.6rem;
+}
+
+
 ═══════════════════════════════ */
 #loading-screen {
   background: #fff;
@@ -1393,7 +1407,7 @@ html, body {
           <div class="video-placeholder-name" id="pashy-vid-lbl">PARTE 1/3</div>
         </div>
       </div>
-      <div class="tape-txt" id="tape-txt"></div>
+      <div id="tape-txt" style="width:100%;"></div>
     </div>
     <div class="tape-nav">
       <button class="btn-tape" id="tp-prev" onclick="changeTape(-1)">&#9664; PREC</button>
@@ -1490,16 +1504,19 @@ const S = {
 const TAPE = [
   {
     lbl: "PARTE PRIMA — TENERA", vidLbl: "PARTE 1/3",
+    videoSrc: "https://youtube.com/shorts/XifFaAn2Erg",
     txt: `"Ciao.\n\nNon so se guarderai mai questo. Spero di no in realtà. Spero che domani mattina ci ridiamo su.\n\nMa nel caso.\n\nRipensavo a quegli abbracci in birreria, a mangiare i bocconcini di pollo e a parlare del niente. Ci penso spesso. Non te l'ho mai detto perché sembrava stupido. Non lo era.\n\nSei speciale per me. Forse lo sai. Forse no. Volevo dirtelo in faccia. Non riuscivo."`,
     pause: null
   },
   {
     lbl: "PARTE SECONDA — LA SVOLTA", vidLbl: "PARTE 2/3",
+    videoSrc: "https://youtube.com/shorts/PARTE2_ID",
     txt: `"C'è una cosa che non torna. L'ho capita stanotte.\n\nIsa, Peak, Gio. Li conosco tutti, chi da mesi, chi da anni. Ma stasera ognuno di loro ha detto una cosa diversa. E le cose diverse non tornano.\n\nQualcuno ha mentito. Forse tutti.\n\nLa cosa che non capisco: perché proteggono qualcuno?\n\nHo un'idea. Ma ho bisogno che tu ci arrivi da sola. Sei l'unica in quella stanza che non ha niente da nascondere."`,
     pause: null
   },
   {
     lbl: "PARTE TERZA — IL FINALE", vidLbl: "PARTE 3/3",
+    videoSrc: "https://youtube.com/shorts/PARTE3_ID",
     txt: `"Sai cosa mi ha sempre colpito di te?\n\nChe quando entri in una stanza la gente smette di fingere.\n\nNon so se lo sai. Probabilmente no.\n\nGuarda i tuoi amici adesso. Guarda le loro facce.\n\nQualcuno non sta reggendo lo sguardo.\n\nQuello è il tuo indizio."`,
     pause: null
   }
@@ -1678,13 +1695,45 @@ function renderTape() {
   const p = TAPE[tapeIdx];
   const html = p.txt.replace(/\n\n/g, '</p><p style="margin-top:0.6rem;">').replace(/\n/g, '<br>');
   const pause = p.pause ? `<span class="tape-pause">${p.pause}</span>` : '';
-  document.getElementById('tape-txt').innerHTML = `<p>${html}</p>${pause}`;
+
+  // Update video placeholder label and src
   document.getElementById('pashy-vid-lbl').textContent = p.vidLbl;
+  const vidEl = document.getElementById('pashy-vid');
+  if (vidEl && p.videoSrc) vidEl.dataset.videoSrc = p.videoSrc;
+
+  // Render trascrizione with toggle (collapsed by default, state preserved per tape)
+  const tapeKey = 'tape-tr-' + tapeIdx;
+  const isOpen = window._tapeTranscOpen && window._tapeTranscOpen[tapeKey];
+  document.getElementById('tape-txt').innerHTML = `
+    <button class="btn-trascrizione btn-trascrizione-dark ${isOpen ? 'open' : ''}"
+      id="btn-tape-tr-${tapeIdx}"
+      onclick="toggleTapeTrascrizione(${tapeIdx})">
+      <em class="tr-arrow">▶</em>
+      <span class="tr-txt">${isOpen ? 'NASCONDI TRASCRIZIONE' : 'MOSTRA TRASCRIZIONE VERBALE'}</span>
+    </button>
+    <div class="trascrizione-collapsible ${isOpen ? 'open' : ''}" id="tr-tape-panel-${tapeIdx}">
+      <div class="tape-txt-inner">${pause}<p>${html}</p></div>
+    </div>
+  `;
+
   document.getElementById('tp-prev').disabled = tapeIdx === 0;
   document.getElementById('tp-next').disabled = tapeIdx === TAPE.length - 1;
   document.getElementById('tp-ct').textContent = `${tapeIdx + 1} / ${TAPE.length}`;
   const aw = document.getElementById('accusa-wrap');
   aw.style.display = tapeIdx === TAPE.length - 1 ? '' : 'none';
+}
+
+function toggleTapeTrascrizione(idx) {
+  if (!window._tapeTranscOpen) window._tapeTranscOpen = {};
+  const key = 'tape-tr-' + idx;
+  const isOpen = !!window._tapeTranscOpen[key];
+  window._tapeTranscOpen[key] = !isOpen;
+  const btn = document.getElementById('btn-tape-tr-' + idx);
+  const panel = document.getElementById('tr-tape-panel-' + idx);
+  if (!btn || !panel) return;
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.querySelector('.tr-txt').textContent = !isOpen ? 'NASCONDI TRASCRIZIONE' : 'MOSTRA TRASCRIZIONE VERBALE';
 }
 
 function changeTape(d) {
@@ -1737,6 +1786,7 @@ function resetGame() {
     const txt = document.getElementById('ind-text-' + id);
     if (txt) txt.innerHTML = '';
   });
+  window._tapeTranscOpen = {};
   const accInput = document.getElementById('accusa-inp');
   if (accInput) { accInput.value = ''; accInput.classList.remove('corr','err'); accInput.disabled = false; }
   document.getElementById('accusa-err').classList.remove('show');
