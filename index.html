@@ -1,1619 +1,1938 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%238b0000'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='serif' font-size='72' font-weight='bold' fill='white'%3E%3F%3C/text%3E%3C/svg%3E">
-<title>CASO PASHY</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&display=swap" rel="stylesheet">
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%238b0000'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='serif' font-size='72' font-weight='bold' fill='white'%3E%3F%3C/text%3E%3C/svg%3E">
+  <title>CASO PASHY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-:root {
-  --red: #8b0000;
-  --red2: #c0392b;
-  --red-glow: rgba(139,0,0,0.15);
-  --ink: #1a1208;
-  --ink2: #333;
-  --gray: #888;
-  --lgray: #e0e0e0;
-  --border: #bbb;
-  --bg: #fff;
-  --boxbg: #f8f8f8;
-  --gold: #8b6914;
-  --gold-light: #c8b060;
-  --green: #1a4a1a;
-  --green-glow: rgba(26,74,26,0.12);
-  --stripe: #c8c8c8;
-  --paper: #f9f7f2;
-}
+    :root {
+      --red: #8b0000;
+      --red2: #c0392b;
+      --red-glow: rgba(139, 0, 0, 0.15);
+      --ink: #1a1208;
+      --ink2: #333;
+      --gray: #888;
+      --lgray: #e0e0e0;
+      --border: #bbb;
+      --bg: #fff;
+      --boxbg: #f8f8f8;
+      --gold: #8b6914;
+      --gold-light: #c8b060;
+      --green: #1a4a1a;
+      --green-glow: rgba(26, 74, 26, 0.12);
+      --stripe: #c8c8c8;
+      --paper: #f9f7f2;
+    }
 
-html, body {
-  font-family: 'Courier Prime', monospace;
-  background: #fff;
-  color: var(--ink2);
-  min-height: 100%;
-  -webkit-font-smoothing: antialiased;
-}
+    html,
+    body {
+      font-family: 'Courier Prime', monospace;
+      background: #fff;
+      color: var(--ink2);
+      min-height: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* ─── SCREENS ─── */
-.screen { display: none !important; }
-.screen.active { display: block !important; }
+    /* ─── SCREENS ─── */
+    .screen {
+      display: none !important;
+    }
 
-/* ─── STRIPE ─── */
-.doc-stripe {
-  width: 100%;
-  height: 10px;
-  background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 5px, #fff 5px, #fff 7px);
-  flex-shrink: 0;
-}
+    .screen.active {
+      display: block !important;
+    }
 
-/* ═══════════════════════════════
+    /* ─── STRIPE ─── */
+    .doc-stripe {
+      width: 100%;
+      height: 10px;
+      background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 5px, #fff 5px, #fff 7px);
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════
    TITLE SCREEN
 ═══════════════════════════════ */
-#title-screen {
-  background: #fff;
-}
-#title-screen.active { display: flex !important; flex-direction: column; min-height: 100svh; }
+    #title-screen {
+      background: #fff;
+    }
 
-.title-inner {
-  flex: 1;
-  padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 6vw, 3.5rem);
-  max-width: 900px;
-  margin: 0 auto;
-  width: 100%;
-}
+    #title-screen.active {
+      display: flex !important;
+      flex-direction: column;
+      min-height: 100svh;
+    }
 
-.qs-header { text-align: center; margin-bottom: 0.3rem; }
-.qs-name {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(1rem, 4vw, 1.7rem);
-  color: var(--ink);
-  letter-spacing: 1px;
-}
-.qs-sub {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.65rem, 2.5vw, 0.82rem);
-  color: var(--ink2);
-  margin-top: 2px;
-}
-.qs-line { border: none; border-top: 1.5px solid var(--border); margin: 0.9rem 0; }
+    .title-inner {
+      flex: 1;
+      padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 6vw, 3.5rem);
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
 
-.rapporto-label {
-  text-align: center;
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.62rem, 2.5vw, 0.78rem);
-  color: var(--red);
-  font-weight: 700;
-  letter-spacing: 4px;
-  margin: 0.8rem 0 0.4rem;
-}
-.caso-title {
-  text-align: center;
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(1.8rem, 8vw, 2.6rem);
-  color: var(--ink);
-  letter-spacing: 2px;
-  margin-bottom: 0.2rem;
-}
+    .qs-header {
+      text-align: center;
+      margin-bottom: 0.3rem;
+    }
 
-.case-intro-box {
-  border: 1.5px solid var(--border);
-  padding: clamp(1rem, 4vw, 1.4rem) clamp(1rem, 4vw, 2rem);
-  margin: 1.4rem 0;
-  background: #fff;
-  display: flex;
-  gap: clamp(1rem, 4vw, 3rem);
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.case-intro-box img {
-  max-height: 300px;
-  max-width: 100%;
-  width: auto;
-  object-fit: cover;
-}
-.case-intro-box p {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.78rem, 2.5vw, 0.83rem);
-  line-height: 1.9;
-  color: var(--ink2);
-  flex: 1;
-  min-width: 200px;
-}
-.case-intro-box strong { font-weight: 700; color: var(--ink); }
+    .qs-name {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(1rem, 4vw, 1.7rem);
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
 
-.btn-start {
-  display: block;
-  margin: 1.8rem auto 0;
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  background: #fff;
-  color: var(--red);
-  border: 2px solid var(--red);
-  padding: 0.85rem 2.5rem;
-  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-  letter-spacing: 3px;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-transform: uppercase;
-  width: 100%;
-  max-width: 340px;
-}
-.btn-start:hover, .btn-start:active {
-  background: var(--red);
-  color: #fff;
-}
+    .qs-sub {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.65rem, 2.5vw, 0.82rem);
+      color: var(--ink2);
+      margin-top: 2px;
+    }
 
-/* ═══════════════════════════════
+    .qs-line {
+      border: none;
+      border-top: 1.5px solid var(--border);
+      margin: 0.9rem 0;
+    }
+
+    .rapporto-label {
+      text-align: center;
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.62rem, 2.5vw, 0.78rem);
+      color: var(--red);
+      font-weight: 700;
+      letter-spacing: 4px;
+      margin: 0.8rem 0 0.4rem;
+    }
+
+    .caso-title {
+      text-align: center;
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 8vw, 2.6rem);
+      color: var(--ink);
+      letter-spacing: 2px;
+      margin-bottom: 0.2rem;
+    }
+
+    .case-intro-box {
+      border: 1.5px solid var(--border);
+      padding: clamp(1rem, 4vw, 1.4rem) clamp(1rem, 4vw, 2rem);
+      margin: 1.4rem 0;
+      background: #fff;
+      display: flex;
+      gap: clamp(1rem, 4vw, 3rem);
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .case-intro-box img {
+      max-height: 300px;
+      max-width: 100%;
+      width: auto;
+      object-fit: cover;
+    }
+
+    .case-intro-box p {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.78rem, 2.5vw, 0.83rem);
+      line-height: 1.9;
+      color: var(--ink2);
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .case-intro-box strong {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .btn-start {
+      display: block;
+      margin: 1.8rem auto 0;
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      background: #fff;
+      color: var(--red);
+      border: 2px solid var(--red);
+      padding: 0.85rem 2.5rem;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .btn-start:hover,
+    .btn-start:active {
+      background: var(--red);
+      color: #fff;
+    }
+
+    /* ═══════════════════════════════
    TG SCREEN (Telegiornale)
 ═══════════════════════════════ */
-.tg-screen { background: #0a0a14; }
-.tg-screen.active { display: flex !important; flex-direction: column; min-height: 100svh; }
+    .tg-screen {
+      background: #0a0a14;
+    }
 
-.tg-topbar {
-  background: var(--red);
-  padding: 0.4rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-.tg-channel {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(0.7rem, 3vw, 0.9rem);
-  color: #fff;
-  letter-spacing: 4px;
-}
-.tg-ora {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.6rem, 2vw, 0.72rem);
-  color: rgba(255,255,255,0.7);
-  letter-spacing: 2px;
-}
+    .tg-screen.active {
+      display: flex !important;
+      flex-direction: column;
+      min-height: 100svh;
+    }
 
-.tg-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 4vw, 2rem);
-  gap: 1.5rem;
-  max-width: 700px;
-  margin: 0 auto;
-  width: 100%;
-}
+    .tg-topbar {
+      background: var(--red);
+      padding: 0.4rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
 
-.tg-breaking {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.55rem, 2vw, 0.65rem);
-  color: var(--red);
-  letter-spacing: 5px;
-  font-weight: 700;
-  text-align: center;
-  background: rgba(139,0,0,0.1);
-  border: 1px solid rgba(139,0,0,0.3);
-  padding: 4px 16px;
-}
+    .tg-channel {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(0.7rem, 3vw, 0.9rem);
+      color: #fff;
+      letter-spacing: 4px;
+    }
 
-.tg-headline {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(1.3rem, 6vw, 2rem);
-  color: #fff;
-  text-align: center;
-  line-height: 1.3;
-  letter-spacing: 1px;
-}
+    .tg-ora {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.6rem, 2vw, 0.72rem);
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 2px;
+    }
 
-/* VIDEO VERTICALE (9:16) */
-.video-vert-wrap {
-  width: 100%;
-  max-width: 280px;
-  flex-shrink: 0;
-}
-.video-vert {
-  width: 100%;
-  aspect-ratio: 9/16;
-  border: 2px dashed #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  background: #111 center/cover no-repeat;
-}
-.video-vert::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(
-      0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px
-    ),
-    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
-  pointer-events: none;
-}
-.video-vert .video-play-btn {
-  width: 56px;
-  height: 56px;
-  border: 2px solid var(--gold-light);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold-light);
-  font-size: 1.3rem;
-  margin-bottom: 0.7rem;
-  transition: all 0.2s;
-  position: relative;
-  z-index: 1;
-}
-.video-vert:hover .video-play-btn {
-  background: rgba(200,176,96,0.15);
-  transform: scale(1.1);
-}
-.video-vert .video-placeholder-lbl {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.58rem;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-.video-vert .video-placeholder-name {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.7rem;
-  color: var(--gold-light);
-  letter-spacing: 2px;
-  font-weight: 700;
-  text-align: center;
-  margin-top: 4px;
-  position: relative;
-  z-index: 1;
-}
-.video-vert .video-corner {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.52rem;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 2px;
-  z-index: 1;
-}
-.video-vert .video-rec-dot {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.5rem;
-  color: var(--red);
-  letter-spacing: 2px;
-  z-index: 1;
-}
-.rec-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--red);
-  animation: blink 1.2s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    .tg-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 4vw, 2rem);
+      gap: 1.5rem;
+      max-width: 700px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .tg-breaking {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.55rem, 2vw, 0.65rem);
+      color: var(--red);
+      letter-spacing: 5px;
+      font-weight: 700;
+      text-align: center;
+      background: rgba(139, 0, 0, 0.1);
+      border: 1px solid rgba(139, 0, 0, 0.3);
+      padding: 4px 16px;
+    }
+
+    .tg-headline {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(1.3rem, 6vw, 2rem);
+      color: #fff;
+      text-align: center;
+      line-height: 1.3;
+      letter-spacing: 1px;
+    }
+
+    /* VIDEO VERTICALE (9:16) */
+    .video-vert-wrap {
+      width: 100%;
+      max-width: 280px;
+      flex-shrink: 0;
+    }
+
+    .video-vert {
+      width: 100%;
+      aspect-ratio: 9/16;
+      border: 2px dashed #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: #111 center/cover no-repeat;
+    }
+
+    .video-vert::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.15) 2px, rgba(0, 0, 0, 0.15) 4px),
+        linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+      pointer-events: none;
+    }
+
+    .video-vert .video-play-btn {
+      width: 56px;
+      height: 56px;
+      border: 2px solid var(--gold-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-light);
+      font-size: 1.3rem;
+      margin-bottom: 0.7rem;
+      transition: all 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .video-vert:hover .video-play-btn {
+      background: rgba(200, 176, 96, 0.15);
+      transform: scale(1.1);
+    }
+
+    .video-vert .video-placeholder-lbl {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.58rem;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .video-vert .video-placeholder-name {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .video-vert .video-corner {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.52rem;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 2px;
+      z-index: 1;
+    }
+
+    .video-vert .video-rec-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.5rem;
+      color: var(--red);
+      letter-spacing: 2px;
+      z-index: 1;
+    }
+
+    .rec-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.2
+      }
+    }
 
 
-.tg-ticker {
-  width: 100%;
-  background: var(--red);
-  padding: 6px 0;
-  overflow: hidden;
-  flex-shrink: 0;
-  margin-top: auto;
-}
-.tg-ticker-inner {
-  white-space: nowrap;
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.58rem, 2vw, 0.65rem);
-  color: #fff;
-  letter-spacing: 2px;
-  animation: ticker 18s linear infinite;
-  display: inline-block;
-  padding-left: 100%;
-}
-@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-100%)} }
+    .tg-ticker {
+      width: 100%;
+      background: var(--red);
+      padding: 6px 0;
+      overflow: hidden;
+      flex-shrink: 0;
+      margin-top: auto;
+    }
 
-.btn-tg-next {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  background: transparent;
-  color: #fff;
-  border: 2px solid rgba(255,255,255,0.4);
-  padding: 0.75rem 2rem;
-  font-size: clamp(0.7rem, 2.5vw, 0.8rem);
-  letter-spacing: 3px;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-transform: uppercase;
-  touch-action: manipulation;
-}
-.btn-tg-next:hover, .btn-tg-next:active {
-  border-color: #fff;
-  background: rgba(255,255,255,0.08);
-}
+    .tg-ticker-inner {
+      white-space: nowrap;
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.58rem, 2vw, 0.65rem);
+      color: #fff;
+      letter-spacing: 2px;
+      animation: ticker 18s linear infinite;
+      display: inline-block;
+      padding-left: 100%;
+    }
 
-/* ═══════════════════════════════
+    @keyframes ticker {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-100%)
+      }
+    }
+
+    .btn-tg-next {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      padding: 0.75rem 2rem;
+      font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      touch-action: manipulation;
+    }
+
+    .btn-tg-next:hover,
+    .btn-tg-next:active {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* ═══════════════════════════════
    INDOVINELLO SCREEN
 ═══════════════════════════════ */
-.ind-screen { background: #f0ede6; }
-.ind-screen.active { display: flex !important; flex-direction: column; min-height: 100svh; }
+    .ind-screen {
+      background: #f0ede6;
+      min-height: 100svh;
+    }
 
-.ind-topbar {
-  background: #1a1208;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  border-bottom: 3px solid #8b6914;
-  flex-shrink: 0;
-}
-.ind-title {
-  font-family: 'Courier Prime', monospace;
-  color: var(--gold-light);
-  font-size: clamp(0.6rem, 2.5vw, 0.72rem);
-  letter-spacing: 3px;
-  font-weight: 700;
-}
-.ind-badge {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.52rem, 2vw, 0.6rem);
-  color: #666;
-  letter-spacing: 2px;
-}
+    .ind-screen.active {
+      display: flex !important;
+      flex-direction: column;
+      min-height: 100svh;
+    }
 
-.ind-body {
-  flex: 1;
-  padding: clamp(0.8rem, 3vw, 1.2rem);
-  overflow: auto;
-}
+    .ind-topbar {
+      background: #1a1208;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      border-bottom: 3px solid #8b6914;
+      flex-shrink: 0;
+    }
 
-.ind-doc {
-  background: #fff;
-  border: 1px solid var(--border);
-  padding: clamp(1rem, 4vw, 1.8rem) clamp(0.8rem, 4vw, 2rem);
-  position: relative;
-}
-.ind-stripe { width:100%; height:8px; background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 5px, #fff 5px, #fff 7px); margin-bottom:1.2rem; }
-.ind-stripe-b { width:100%; height:8px; background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 5px, #fff 5px, #fff 7px); margin-top:1.2rem; }
+    .ind-title {
+      font-family: 'Courier Prime', monospace;
+      color: var(--gold-light);
+      font-size: clamp(0.6rem, 2.5vw, 0.72rem);
+      letter-spacing: 3px;
+      font-weight: 700;
+    }
 
-.ind-susp-label {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.52rem, 2vw, 0.6rem);
-  color: var(--red);
-  letter-spacing: 3px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  text-align: center;
-}
-.ind-susp-name {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(1.4rem, 6vw, 1.9rem);
-  color: var(--ink);
-  letter-spacing: 2px;
-  text-align: center;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 0.7rem;
-  margin-bottom: 1.2rem;
-}
+    .ind-badge {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.52rem, 2vw, 0.6rem);
+      color: #666;
+      letter-spacing: 2px;
+    }
 
-/* Layout indovinello: video a sinistra, testo a destra su desktop; verticale su mobile */
-.ind-layout {
-  display: flex;
-  gap: clamp(1rem, 4vw, 2rem);
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-.ind-media {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  flex-shrink: 0;
-  width: 100%;
-  max-width: 220px;
-}
-@media (max-width: 600px) {
-  .ind-media { max-width: 100%; }
-  .video-vert-wrap { max-width: 200px; margin: 0 auto; }
-}
-.ind-text { flex: 1; min-width: 200px; }
+    .ind-body {
+      flex: 1;
+      padding: clamp(0.8rem, 3vw, 1.2rem);
+      overflow: auto;
+    }
 
-.dep-label {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.52rem, 2vw, 0.6rem);
-  color: var(--red);
-  letter-spacing: 3px;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-  margin-top: 0.2rem;
-}
+    .ind-doc {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: clamp(1rem, 4vw, 1.8rem) clamp(0.8rem, 4vw, 2rem);
+      position: relative;
+    }
 
-/* ─── TRASCRIZIONE TOGGLE ─── */
-.btn-trascrizione {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.58rem, 2vw, 0.65rem);
-  letter-spacing: 2px;
-  color: var(--red);
-  background: transparent;
-  border: 1px dashed var(--red);
-  padding: 5px 12px;
-  cursor: pointer;
-  margin-bottom: 0.7rem;
-  transition: all 0.18s;
-  touch-action: manipulation;
-}
-.btn-trascrizione:hover { background: var(--red-glow); }
-.btn-trascrizione .tr-arrow {
-  display: inline-block;
-  transition: transform 0.2s;
-  font-style: normal;
-  font-size: 0.7rem;
-}
-.btn-trascrizione.open .tr-arrow { transform: rotate(90deg); }
+    .ind-stripe {
+      width: 100%;
+      height: 8px;
+      background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 5px, #fff 5px, #fff 7px);
+      margin-bottom: 1.2rem;
+    }
 
-.trascrizione-collapsible {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.35s ease, opacity 0.25s ease;
-  opacity: 0;
-}
-.trascrizione-collapsible.open {
-  max-height: 2000px;
-  opacity: 1;
-}
+    .ind-stripe-b {
+      width: 100%;
+      height: 8px;
+      background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 5px, #fff 5px, #fff 7px);
+      margin-top: 1.2rem;
+    }
 
-.dep-text {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.78rem, 2.5vw, 0.82rem);
-  line-height: 1.9;
-  color: var(--ink2);
-  border-left: 3px solid var(--border);
-  padding: 0.7rem 1rem;
-  background: #fafafa;
-}
+    .ind-susp-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.52rem, 2vw, 0.6rem);
+      color: var(--red);
+      letter-spacing: 3px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-align: center;
+    }
 
-.puzzle-divider { border: none; border-top: 1px dashed var(--border); margin: 1.2rem 0; }
+    .ind-susp-name {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 6vw, 1.9rem);
+      color: var(--ink);
+      letter-spacing: 2px;
+      text-align: center;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 0.7rem;
+      margin-bottom: 1.2rem;
+    }
 
-.wrong-banner {
-  display: none;
-  background: #fff0f0;
-  border: 1.5px solid var(--red2);
-  border-left: 4px solid var(--red);
-  padding: 0.55rem 0.9rem;
-  margin: 0.5rem 0;
-  animation: fadeIn 0.2s ease;
-  text-align: center;
-}
-.wrong-banner.show { display: block; }
-.wrong-banner-txt {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.78rem;
-  color: var(--red);
-  letter-spacing: 1px;
-  font-style: italic;
-}
-.wrong-counter {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.62rem;
-  color: #aaa;
-  letter-spacing: 2px;
-  margin-top: 3px;
-}
+    /* Layout indovinello: video a sinistra, testo a destra su desktop; verticale su mobile */
+    .ind-layout {
+      display: flex;
+      gap: clamp(1rem, 4vw, 2rem);
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
 
-.ans-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 0.7rem;
-  justify-content: start;
-  flex-wrap: wrap;
-}
-.ans-inp {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(0.9rem, 3.5vw, 1.05rem);
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid var(--ink2);
-  color: var(--ink);
-  padding: 6px 6px;
-  outline: none;
-  transition: border-color 0.2s;
-  min-width: 140px;
-  width: auto;
-}
-.ans-inp:focus { border-color: var(--ink); }
-.ans-inp.correct { border-color: var(--green); color: var(--green); }
-.ans-inp.wrong {
-  border-color: var(--red2);
-  color: var(--red2);
-  animation: shk 0.35s ease;
-}
-@keyframes shk {
-  0%,100%{transform:translateX(0)}
-  20%{transform:translateX(-7px)}
-  40%{transform:translateX(7px)}
-  60%{transform:translateX(-4px)}
-  80%{transform:translateX(4px)}
-}
-@keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
+    .ind-media {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 220px;
+    }
 
-.btn-conf {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  background: var(--ink);
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  font-size: clamp(0.62rem, 2.5vw, 0.68rem);
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.2s;
-  touch-action: manipulation;
-}
-.btn-conf:hover, .btn-conf:active { background: var(--red); }
+    @media (max-width: 600px) {
+      .ind-media {
+        max-width: 100%;
+      }
 
-.reveal-box {
-  display: none;
-  border: 1.5px solid var(--green);
-  padding: 0.75rem 1rem;
-  margin-top: 0.5rem;
-  background: linear-gradient(135deg, #f0fff0 0%, #e8f5e8 100%);
-  animation: revealPop 0.4s ease;
-}
-.reveal-box.show { display: block; }
-@keyframes revealPop {
-  from { opacity:0; transform:scale(0.97); }
-  to   { opacity:1; transform:scale(1); }
-}
-.rev-cat {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 3px;
-  color: var(--green);
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-.rev-val {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.85rem, 3vw, 0.95rem);
-  color: var(--green);
-  font-weight: 700;
-}
+      .video-vert-wrap {
+        max-width: 200px;
+        margin: 0 auto;
+      }
+    }
 
-.solved-stamp {
-  display: none;
-  position: absolute;
-  top: 1.5rem;
-  right: 1rem;
-  border: 3px solid var(--green);
-  color: var(--green);
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(0.5rem, 2vw, 0.65rem);
-  letter-spacing: 4px;
-  padding: 5px 10px;
-  transform: rotate(-10deg);
-  opacity: 0.8;
-}
-.solved-stamp.show { display: block; }
+    .ind-text {
+      flex: 1;
+      min-width: 200px;
+    }
 
-/* ═══════════════════════════════
+    .dep-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.52rem, 2vw, 0.6rem);
+      color: var(--red);
+      letter-spacing: 3px;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      margin-top: 0.2rem;
+    }
+
+    /* ─── TRASCRIZIONE TOGGLE ─── */
+    .btn-trascrizione {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.58rem, 2vw, 0.65rem);
+      letter-spacing: 2px;
+      color: var(--red);
+      background: transparent;
+      border: 1px dashed var(--red);
+      padding: 5px 12px;
+      cursor: pointer;
+      margin-bottom: 0.7rem;
+      transition: all 0.18s;
+      touch-action: manipulation;
+    }
+
+    .btn-trascrizione:hover {
+      background: var(--red-glow);
+    }
+
+    .btn-trascrizione .tr-arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+      font-style: normal;
+      font-size: 0.7rem;
+    }
+
+    .btn-trascrizione.open .tr-arrow {
+      transform: rotate(90deg);
+    }
+
+    .trascrizione-collapsible {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease, opacity 0.25s ease;
+      opacity: 0;
+    }
+
+    .trascrizione-collapsible.open {
+      max-height: 2000px;
+      opacity: 1;
+    }
+
+    .dep-text {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.78rem, 2.5vw, 0.82rem);
+      line-height: 1.9;
+      color: var(--ink2);
+      border-left: 3px solid var(--border);
+      padding: 0.7rem 1rem;
+      background: #fafafa;
+    }
+
+    .puzzle-divider {
+      border: none;
+      border-top: 1px dashed var(--border);
+      margin: 1.2rem 0;
+    }
+
+    .wrong-banner {
+      display: none;
+      background: #fff0f0;
+      border: 1.5px solid var(--red2);
+      border-left: 4px solid var(--red);
+      padding: 0.55rem 0.9rem;
+      margin: 0.5rem 0;
+      animation: fadeIn 0.2s ease;
+      text-align: center;
+    }
+
+    .wrong-banner.show {
+      display: block;
+    }
+
+    .wrong-banner-txt {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      color: var(--red);
+      letter-spacing: 1px;
+      font-style: italic;
+    }
+
+    .wrong-counter {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      color: #aaa;
+      letter-spacing: 2px;
+      margin-top: 3px;
+    }
+
+    .ans-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 0.7rem;
+      justify-content: start;
+      flex-wrap: wrap;
+    }
+
+    .ans-inp {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid var(--ink2);
+      color: var(--ink);
+      padding: 6px 6px;
+      outline: none;
+      transition: border-color 0.2s;
+      min-width: 140px;
+      width: auto;
+    }
+
+    .ans-inp:focus {
+      border-color: var(--ink);
+    }
+
+    .ans-inp.correct {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .ans-inp.wrong {
+      border-color: var(--red2);
+      color: var(--red2);
+      animation: shk 0.35s ease;
+    }
+
+    @keyframes shk {
+
+      0%,
+      100% {
+        transform: translateX(0)
+      }
+
+      20% {
+        transform: translateX(-7px)
+      }
+
+      40% {
+        transform: translateX(7px)
+      }
+
+      60% {
+        transform: translateX(-4px)
+      }
+
+      80% {
+        transform: translateX(4px)
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-4px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .btn-conf {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      font-size: clamp(0.62rem, 2.5vw, 0.68rem);
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      touch-action: manipulation;
+    }
+
+    .btn-conf:hover,
+    .btn-conf:active {
+      background: var(--red);
+    }
+
+    .reveal-box {
+      display: none;
+      border: 1.5px solid var(--green);
+      padding: 0.75rem 1rem;
+      margin-top: 0.5rem;
+      background: linear-gradient(135deg, #f0fff0 0%, #e8f5e8 100%);
+      animation: revealPop 0.4s ease;
+    }
+
+    .reveal-box.show {
+      display: block;
+    }
+
+    @keyframes revealPop {
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .rev-cat {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .rev-val {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.85rem, 3vw, 0.95rem);
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .solved-stamp {
+      display: none;
+      position: absolute;
+      top: 1.5rem;
+      right: 1rem;
+      border: 3px solid var(--green);
+      color: var(--green);
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(0.5rem, 2vw, 0.65rem);
+      letter-spacing: 4px;
+      padding: 5px 10px;
+      transform: rotate(-10deg);
+      opacity: 0.8;
+    }
+
+    .solved-stamp.show {
+      display: block;
+    }
+
+    /* ═══════════════════════════════
    RIDDLE LOADING SCREEN
 ═══════════════════════════════ */
-#riddle-loading-screen {
-  background: #f9f7f2;
-  min-height: 100svh;
-}
-#riddle-loading-screen.active {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  gap: 1.5rem;
-}
+    #riddle-loading-screen {
+      background: #f9f7f2;
+      min-height: 100svh;
+    }
 
-.rl-typewriter {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
-  color: var(--red);
-  letter-spacing: 3px;
-  font-weight: 700;
-  text-align: center;
-  min-height: 1.4rem;
-}
-.rl-doc-icon {
-  font-size: 2.5rem;
-  opacity: 0.15;
-  animation: pulse 1.5s infinite;
-}
-@keyframes pulse { 0%,100%{opacity:0.15} 50%{opacity:0.35} }
+    #riddle-loading-screen.active {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      gap: 1.5rem;
+    }
 
-.rl-bar-wrap {
-  width: min(320px, 80vw);
-  border: 1px solid var(--border);
-  height: 4px;
-  background: #e0e0e0;
-}
-.rl-bar {
-  height: 100%;
-  width: 0;
-  background: var(--red);
-  transition: width 0.06s linear;
-}
-.rl-msg {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.65rem, 2.5vw, 0.72rem);
-  color: var(--gray);
-  letter-spacing: 2px;
-  text-align: center;
-  font-style: italic;
-  min-height: 1.2rem;
-}
-.rl-suspect-reveal {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.72rem, 3vw, 0.9rem);
-  color: var(--ink);
-  letter-spacing: 2px;
-  text-align: center;
-  font-weight: 700;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-.rl-suspect-reveal.visible { opacity: 1; }
+    .rl-typewriter {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+      color: var(--red);
+      letter-spacing: 3px;
+      font-weight: 700;
+      text-align: center;
+      min-height: 1.4rem;
+    }
 
-/* ═══════════════════════════════
+    .rl-doc-icon {
+      font-size: 2.5rem;
+      opacity: 0.15;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.15
+      }
+
+      50% {
+        opacity: 0.35
+      }
+    }
+
+    .rl-bar-wrap {
+      width: min(320px, 80vw);
+      border: 1px solid var(--border);
+      height: 4px;
+      background: #e0e0e0;
+    }
+
+    .rl-bar {
+      height: 100%;
+      width: 0;
+      background: var(--red);
+      transition: width 0.06s linear;
+    }
+
+    .rl-msg {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.65rem, 2.5vw, 0.72rem);
+      color: var(--gray);
+      letter-spacing: 2px;
+      text-align: center;
+      font-style: italic;
+      min-height: 1.2rem;
+    }
+
+    .rl-suspect-reveal {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.72rem, 3vw, 0.9rem);
+      color: var(--ink);
+      letter-spacing: 2px;
+      text-align: center;
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .rl-suspect-reveal.visible {
+      opacity: 1;
+    }
+
+    /* ═══════════════════════════════
    PASHY SCREEN
 ═══════════════════════════════ */
-#pashy-screen {
-  background: #080600;
-  min-height: 100svh;
-}
-#pashy-screen.active {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1.5rem 1rem;
-  gap: 1rem;
-}
+    #pashy-screen.active {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem 1rem;
+      gap: 1rem;
+    }
 
-.tape-lbl-top {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.5rem, 2vw, 0.6rem);
-  letter-spacing: 4px;
-  color: #555;
-  text-align: center;
-}
-.tape-wrap {
-  border: 2px solid #2a2a2a;
-  max-width: 400px;
-  width: 100%;
-  padding: 1rem;
-}
-.tape-reels {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.6rem;
-  padding: 0 4px;
-}
-.reel {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  border: 2px solid #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.5rem;
-  color: #444;
-}
-.tape-inner-lbl {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.58rem;
-  color: #333;
-  letter-spacing: 3px;
-}
+    .tape-lbl-top {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.5rem, 2vw, 0.6rem);
+      letter-spacing: 4px;
+      color: #555;
+      text-align: center;
+    }
 
-/* Pashy tape body: video verticale + testo */
-.pashy-tape-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 400px;
-}
+    .tape-wrap {
+      border: 2px solid #2a2a2a;
+      max-width: 400px;
+      width: 100%;
+      padding: 1rem;
+    }
 
-.pashy-video-wrap {
-  width: 100%;
-  max-width: 200px;
-}
+    .tape-reels {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+      padding: 0 4px;
+    }
 
-.tape-txt {
-  border: 1px solid #1a1a1a;
-  background: #080600;
-  padding: 1.2rem;
-  color: var(--gold-light);
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.75rem, 2.5vw, 0.8rem);
-  line-height: 1.9;
-  font-style: italic;
-  width: 100%;
-}
+    .reel {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.5rem;
+      color: #444;
+    }
 
-.tape-pause {
-  display: block;
-  color: #2a2a2a;
-  font-size: 0.7rem;
-  margin: 0.5rem 0;
-  font-style: normal;
-}
-.tape-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.6rem;
-}
-.btn-tape {
-  font-family: 'Courier Prime', monospace;
-  background: transparent;
-  color: #444;
-  border: 1px solid #222;
-  padding: 5px 12px;
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.btn-tape:hover:not(:disabled) { border-color: #666; color: #888; }
-.btn-tape:disabled { opacity: 0.2; cursor: default; }
-.tape-ct {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.58rem;
-  color: #333;
-  letter-spacing: 2px;
-}
+    .tape-inner-lbl {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.58rem;
+      color: #333;
+      letter-spacing: 3px;
+    }
 
-.accusa-wrap {
-  max-width: 400px;
-  width: 100%;
-}
-.accusa-lbl {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.52rem, 2vw, 0.62rem);
-  color: #555;
-  letter-spacing: 3px;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-.accusa-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.accusa-inp {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(0.82rem, 3vw, 0.95rem);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  background: #0d0a05;
-  border: 1px solid #333;
-  color: var(--gold-light);
-  padding: 8px 10px;
-  flex: 1;
-  min-width: 180px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.accusa-inp:focus { border-color: #666; }
-.accusa-inp.corr { border-color: var(--green); color: var(--green); }
-.accusa-inp.err { border-color: var(--red2); animation: shk 0.3s; }
-.btn-accusa {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  background: var(--red);
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  font-size: 0.65rem;
-  letter-spacing: 2px;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.btn-accusa:hover { background: #6a0000; }
-.accusa-err-msg {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.7rem;
-  color: var(--red2);
-  margin-top: 0.5rem;
-  text-align: center;
-  display: none;
-}
-/* ─── TRASCRIZIONE TOGGLE — variante dark (nastro Pashy) ─── */
-.btn-trascrizione-dark {
-  color: var(--gold-light) !important;
-  border-color: #3a3020 !important;
-  background: transparent !important;
-}
-.btn-trascrizione-dark:hover { background: rgba(200,176,96,0.08) !important; }
+    /* Pashy tape body: video verticale + testo */
+    .pashy-tape-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      max-width: 400px;
+    }
 
-.tape-txt-inner {
-  color: var(--gold-light);
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.75rem, 2.5vw, 0.8rem);
-  line-height: 1.9;
-  font-style: italic;
-  padding-top: 0.6rem;
-}
+    .pashy-video-wrap {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .tape-txt {
+      border: 1px solid #1a1a1a;
+      background: #080600;
+      padding: 1.2rem;
+      color: var(--gold-light);
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.75rem, 2.5vw, 0.8rem);
+      line-height: 1.9;
+      font-style: italic;
+      width: 100%;
+    }
+
+    .tape-pause {
+      display: block;
+      color: #2a2a2a;
+      font-size: 0.7rem;
+      margin: 0.5rem 0;
+      font-style: normal;
+    }
+
+    .tape-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.6rem;
+    }
+
+    .btn-tape {
+      font-family: 'Courier Prime', monospace;
+      background: transparent;
+      color: #444;
+      border: 1px solid #222;
+      padding: 5px 12px;
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .btn-tape:hover:not(:disabled) {
+      border-color: #666;
+      color: #888;
+    }
+
+    .btn-tape:disabled {
+      opacity: 0.2;
+      cursor: default;
+    }
+
+    .tape-ct {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.58rem;
+      color: #333;
+      letter-spacing: 2px;
+    }
+
+    .accusa-wrap {
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .accusa-lbl {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.52rem, 2vw, 0.62rem);
+      color: #555;
+      letter-spacing: 3px;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .accusa-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .accusa-inp {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(0.82rem, 3vw, 0.95rem);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: #0d0a05;
+      border: 1px solid #333;
+      color: var(--gold-light);
+      padding: 8px 10px;
+      flex: 1;
+      min-width: 180px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .accusa-inp:focus {
+      border-color: #666;
+    }
+
+    .accusa-inp.corr {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .accusa-inp.err {
+      border-color: var(--red2);
+      animation: shk 0.3s;
+    }
+
+    .btn-accusa {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .btn-accusa:hover {
+      background: #6a0000;
+    }
+
+    .accusa-err-msg {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      color: var(--red2);
+      margin-top: 0.5rem;
+      text-align: center;
+      display: none;
+    }
+
+    /* ─── TRASCRIZIONE TOGGLE — variante dark (nastro Pashy) ─── */
+    .btn-trascrizione-dark {
+      color: var(--gold-light) !important;
+      border-color: #3a3020 !important;
+      background: transparent !important;
+    }
+
+    .btn-trascrizione-dark:hover {
+      background: rgba(200, 176, 96, 0.08) !important;
+    }
+
+    .tape-txt-inner {
+      color: var(--gold-light);
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.75rem, 2.5vw, 0.8rem);
+      line-height: 1.9;
+      font-style: italic;
+      padding-top: 0.6rem;
+    }
 
 
-═══════════════════════════════ */
-#loading-screen {
-  background: #fff;
-  min-height: 100svh;
-}
-#loading-screen.active {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem 1.5rem;
-  gap: 1rem;
-}
-.loading-title {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(0.58rem, 2vw, 0.65rem);
-  color: var(--red);
-  letter-spacing: 4px;
-  text-align: center;
-}
-.loading-bar-wrap {
-  width: min(300px, 80vw);
-  border: 1px solid var(--border);
-  height: 6px;
-  background: #f0f0f0;
-}
-.loading-bar {
-  height: 100%;
-  width: 0;
-  background: var(--red);
-  transition: width 0.08s linear;
-}
-.loading-msg {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.65rem, 2.5vw, 0.72rem);
-  color: var(--gray);
-  letter-spacing: 2px;
-  text-align: center;
-  min-height: 1.2rem;
-}
+    ═══════════════════════════════ */ #loading-screen {
+      background: #fff;
+      min-height: 100svh;
+    }
 
-/* ═══════════════════════════════
+    #loading-screen.active {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+      gap: 1rem;
+    }
+
+    .loading-title {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(0.58rem, 2vw, 0.65rem);
+      color: var(--red);
+      letter-spacing: 4px;
+      text-align: center;
+    }
+
+    .loading-bar-wrap {
+      width: min(300px, 80vw);
+      border: 1px solid var(--border);
+      height: 6px;
+      background: #f0f0f0;
+    }
+
+    .loading-bar {
+      height: 100%;
+      width: 0;
+      background: var(--red);
+      transition: width 0.08s linear;
+    }
+
+    .loading-msg {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.65rem, 2.5vw, 0.72rem);
+      color: var(--gray);
+      letter-spacing: 2px;
+      text-align: center;
+      min-height: 1.2rem;
+    }
+
+    /* ═══════════════════════════════
    FINALE
 ═══════════════════════════════ */
-#finale-screen {
-  background: #fff;
-  min-height: 100svh;
-}
-#finale-screen.active { display: flex !important; flex-direction: column; }
-.finale-stripe-top {
-  width: 100%;
-  height: 14px;
-  background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 6px, #fff 6px, #fff 8px);
-  flex-shrink: 0;
-}
-.finale-body {
-  padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 6vw, 3rem);
-  flex: 1;
-  max-width: 900px;
-  margin: 0 auto;
-  width: 100%;
-}
-.fin-section-label {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.62rem, 2.5vw, 0.72rem);
-  color: var(--ink);
-  letter-spacing: 2px;
-  font-weight: 700;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 0.1rem;
-}
-.fin-diamond { font-size: 0.65rem; color: var(--ink); }
-.fin-line { border: none; border-top: 2px solid var(--ink); margin: 0.3rem 0 1rem; }
-.fin-conf-title {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(1.2rem, 5vw, 1.6rem);
-  color: var(--ink);
-  text-align: center;
-  letter-spacing: 1px;
-  margin-bottom: 0.2rem;
-}
-.fin-conf-sub {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.62rem, 2vw, 0.7rem);
-  color: var(--gray);
-  text-align: center;
-  letter-spacing: 2px;
-  margin-bottom: 1.5rem;
-}
-.fin-box {
-  border: 1.5px solid var(--border);
-  padding: clamp(1rem, 4vw, 1.5rem) clamp(0.8rem, 4vw, 2rem);
-  margin-bottom: 1.5rem;
-  text-align: center;
-  display: flex;
-  gap: clamp(1rem, 4vw, 3rem);
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.fin-box img {
-  max-height: 300px;
-  max-width: 100%;
-  width: auto;
-  object-fit: cover;
-}
-.fin-box p {
-  font-family: 'Courier Prime', monospace;
-  font-size: clamp(0.78rem, 2.5vw, 0.82rem);
-  line-height: 2;
-  color: var(--ink2);
-  flex: 1;
-  min-width: 180px;
-}
-.fin-box strong { font-weight: 700; color: var(--ink); }
-.fin-confessa {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(0.9rem, 4vw, 1.1rem);
-  color: var(--red);
-  text-align: center;
-  letter-spacing: 4px;
-  margin: 1.2rem 0;
-}
-.fin-divider2 { border: none; border-top: 1.5px solid var(--border); margin: 1.5rem 0; }
-.fin-birthday {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(1rem, 5vw, 1.4rem);
-  color: var(--red);
-  text-align: center;
-  letter-spacing: 3px;
-}
-.fin-restart {
-  display: block;
-  margin: 2rem auto 0;
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  background: #fff;
-  color: var(--gray);
-  border: 1px solid var(--lgray);
-  padding: 0.65rem 1.5rem;
-  font-size: clamp(0.6rem, 2vw, 0.65rem);
-  letter-spacing: 2px;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.fin-restart:hover { color: var(--ink); border-color: var(--border); }
+    #finale-screen {
+      background: #fff;
+      min-height: 100svh;
+    }
 
-/* ═══════════════════════════════
+    #finale-screen.active {
+      display: flex !important;
+      flex-direction: column;
+    }
+
+    .finale-stripe-top {
+      width: 100%;
+      height: 14px;
+      background: repeating-linear-gradient(90deg, var(--stripe) 0, var(--stripe) 6px, #fff 6px, #fff 8px);
+      flex-shrink: 0;
+    }
+
+    .finale-body {
+      padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 6vw, 3rem);
+      flex: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .fin-section-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.62rem, 2.5vw, 0.72rem);
+      color: var(--ink);
+      letter-spacing: 2px;
+      font-weight: 700;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 0.1rem;
+    }
+
+    .fin-diamond {
+      font-size: 0.65rem;
+      color: var(--ink);
+    }
+
+    .fin-line {
+      border: none;
+      border-top: 2px solid var(--ink);
+      margin: 0.3rem 0 1rem;
+    }
+
+    .fin-conf-title {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(1.2rem, 5vw, 1.6rem);
+      color: var(--ink);
+      text-align: center;
+      letter-spacing: 1px;
+      margin-bottom: 0.2rem;
+    }
+
+    .fin-conf-sub {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.62rem, 2vw, 0.7rem);
+      color: var(--gray);
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .fin-box {
+      border: 1.5px solid var(--border);
+      padding: clamp(1rem, 4vw, 1.5rem) clamp(0.8rem, 4vw, 2rem);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      display: flex;
+      gap: clamp(1rem, 4vw, 3rem);
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .fin-box img {
+      max-height: 300px;
+      max-width: 100%;
+      width: auto;
+      object-fit: cover;
+    }
+
+    .fin-box p {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(0.78rem, 2.5vw, 0.82rem);
+      line-height: 2;
+      color: var(--ink2);
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .fin-box strong {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .fin-confessa {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 4vw, 1.1rem);
+      color: var(--red);
+      text-align: center;
+      letter-spacing: 4px;
+      margin: 1.2rem 0;
+    }
+
+    .fin-divider2 {
+      border: none;
+      border-top: 1.5px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .fin-birthday {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(1rem, 5vw, 1.4rem);
+      color: var(--red);
+      text-align: center;
+      letter-spacing: 3px;
+    }
+
+    .fin-restart {
+      display: block;
+      margin: 2rem auto 0;
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      background: #fff;
+      color: var(--gray);
+      border: 1px solid var(--lgray);
+      padding: 0.65rem 1.5rem;
+      font-size: clamp(0.6rem, 2vw, 0.65rem);
+      letter-spacing: 2px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .fin-restart:hover {
+      color: var(--ink);
+      border-color: var(--border);
+    }
+
+    /* ═══════════════════════════════
    VIDEO MODAL
 ═══════════════════════════════ */
-#video-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: rgba(0,0,0,0.92);
-  align-items: center;
-  justify-content: center;
-  padding: 3rem;
-  animation: modalIn 0.22s ease;
-}
-#video-modal.open { display: flex; }
-@keyframes modalIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+    #video-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.92);
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      animation: modalIn 0.22s ease;
+    }
 
-.vm-inner {
-  position: relative;
-  width: 100%;
-  max-width: min(360px, calc(100svh * 9/16 - 2rem));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-}
+    #video-modal.open {
+      display: flex;
+    }
 
-.vm-close {
-  position: absolute;
-  top: -2.4rem;
-  right: 0;
-  background: transparent;
-  border: none;
-  color: rgba(255,255,255,0.6);
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 3px;
-  cursor: pointer;
-  padding: 4px 8px;
-  transition: color 0.15s;
-  touch-action: manipulation;
-}
-.vm-close:hover { color: #fff; }
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+      }
 
-.vm-video-box {
-  width: 100%;
-  aspect-ratio: 9/16;
-  background: #000;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.08);
-}
+      to {
+        opacity: 1;
+      }
+    }
 
-.vm-video-box video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+    .vm-inner {
+      position: relative;
+      width: 100%;
+      max-width: min(360px, calc(100svh * 9/16 - 2rem));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-/* fallback when no real video: show placeholder look */
-.vm-no-video {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  background: #0d0d0d;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-.vm-no-video::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg, transparent, transparent 3px, rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 6px
-  ), linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65));
-}
-.vm-no-video-name {
-  font-family: 'Courier Prime', monospace;
-  font-weight: 700;
-  font-size: clamp(1rem, 4vw, 1.3rem);
-  color: var(--gold-light);
-  letter-spacing: 3px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-.vm-no-video-sub {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.6rem;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 3px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-.vm-rec {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.52rem;
-  color: var(--red);
-  letter-spacing: 2px;
-  z-index: 2;
-}
-.vm-cam {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.52rem;
-  color: rgba(255,255,255,0.3);
-  letter-spacing: 2px;
-  z-index: 2;
-}
-</style>
+    .vm-close {
+      position: absolute;
+      top: -2.4rem;
+      right: 0;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.15s;
+      touch-action: manipulation;
+    }
+
+    .vm-close:hover {
+      color: #fff;
+    }
+
+    .vm-video-box {
+      width: 100%;
+      aspect-ratio: 9/16;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .vm-video-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* fallback when no real video: show placeholder look */
+    .vm-no-video {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: #0d0d0d;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .vm-no-video::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 0, 0, 0.12) 3px, rgba(0, 0, 0, 0.12) 6px), linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.65));
+    }
+
+    .vm-no-video-name {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      color: var(--gold-light);
+      letter-spacing: 3px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .vm-no-video-sub {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.6rem;
+      color: rgba(255, 255, 255, 0.35);
+      letter-spacing: 3px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .vm-rec {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.52rem;
+      color: var(--red);
+      letter-spacing: 2px;
+      z-index: 2;
+    }
+
+    .vm-cam {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.52rem;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 2px;
+      z-index: 2;
+    }
+  </style>
 </head>
+
 <body>
-<div id="root">
+  <div id="root">
 
-<!-- ══ TITLE ══ -->
-<div id="title-screen" class="screen active">
-  <div class="doc-stripe"></div>
-  <div class="title-inner">
-    <div class="qs-header">
-      <div class="qs-name">QUESTURA DI MILANO</div>
-      <div class="qs-sub">Divisione Investigativa Speciale: Omicidi Irrisolti</div>
+    <!-- ══ TITLE ══ -->
+    <div id="title-screen" class="screen active">
+      <div class="doc-stripe"></div>
+      <div class="title-inner">
+        <div class="qs-header">
+          <div class="qs-name">QUESTURA DI MILANO</div>
+          <div class="qs-sub">Divisione Investigativa Speciale: Omicidi Irrisolti</div>
+        </div>
+        <hr class="qs-line">
+        <div class="rapporto-label">RAPPORTO POLIZIA</div>
+        <div class="caso-title">«CASO PASHY»</div>
+        <hr class="qs-line">
+        <div class="case-intro-box">
+          <img src="./pashy_gaia.jpg" alt="Pashy e Gaia">
+          <p>
+            Il corpo del signor Andrea Sala,<br>
+            più comunemente noto come Pashy o Pashyno,<br>
+            <strong>è stato ritrovato senza vita a mezzanotte.</strong><br><br>
+            Non è stata rinvenuta l'arma del delitto,<br>
+            nè tanto meno è noto il luogo o il movente.<br>
+            I tre sospettati chiave sono in questa stanza, ma sono reticenti.<br>
+            <strong>Dicono frasi sconnesse e facciamo fatica a trovarne un senso logico.</strong><br><br>
+            Ci serve il tuo aiuto per risolvere il caso<br>
+            e rendere giustizia al povero Pashyno.
+          </p>
+        </div>
+        <button class="btn-start" onclick="goTo('tg-morte')">Apri il Fascicolo &rarr;</button>
+      </div>
+      <div class="doc-stripe"></div>
     </div>
-    <hr class="qs-line">
-    <div class="rapporto-label">RAPPORTO POLIZIA</div>
-    <div class="caso-title">«CASO PASHY»</div>
-    <hr class="qs-line">
-    <div class="case-intro-box">
-      <img src="./pashy_gaia.jpg" alt="Pashy e Gaia">
-      <p>
-        Il corpo del signor Andrea Sala,<br>
-        più comunemente noto come Pashy o Pashyno,<br>
-        <strong>è stato ritrovato senza vita a mezzanotte.</strong><br><br>
-        Non è stata rinvenuta l'arma del delitto,<br>
-        nè tanto meno è noto il luogo o il movente.<br>
-        I tre sospettati chiave sono in questa stanza, ma sono reticenti.<br>
-        <strong>Dicono frasi sconnesse e facciamo fatica a trovarne un senso logico.</strong><br><br>
-        Ci serve il tuo aiuto per risolvere il caso<br>
-        e rendere giustizia al povero Pashyno.
-      </p>
-    </div>
-    <button class="btn-start" onclick="goTo('tg-morte')">Apri il Fascicolo &rarr;</button>
-  </div>
-  <div class="doc-stripe"></div>
-</div>
 
-<!-- ══ TG MORTE PASHY ══ -->
-<div id="tg-morte-screen" class="screen tg-screen">
-  <div class="tg-topbar">
-    <div class="tg-channel">TG · CASO PASHY</div>
-    <div class="tg-ora" id="tg-ora-morte"></div>
-  </div>
-  <div class="tg-body">
-    <div class="tg-breaking">BREAKING NEWS</div>
-    <div class="tg-headline">TROVATO MORTO<br>ANDREA «PASHY» SALA</div>
-    <div class="video-vert-wrap">
-      <div class="video-vert"  data-video-src="https://youtube.com/shorts/9c42yYjS2cw" data-video-name="PASHY" data-video-label="SERVIZIO TG" style="background-image:url('./pashy.jpeg');">
-        <div class="video-corner">CAM · 01</div>
-        <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
-        <div class="video-play-btn">&#9654;</div>
-        <div class="video-placeholder-lbl">SERVIZIO TG</div>
-        <div class="video-placeholder-name">PASHY</div>
+    <!-- ══ TG MORTE PASHY ══ -->
+    <div id="tg-morte-screen" class="screen tg-screen">
+      <div class="tg-topbar">
+        <div class="tg-channel">TG · CASO PASHY</div>
+        <div class="tg-ora" id="tg-ora-morte"></div>
+      </div>
+      <div class="tg-body">
+        <div class="tg-breaking">BREAKING NEWS</div>
+        <div class="tg-headline">TROVATO MORTO<br>ANDREA «PASHY» SALA</div>
+        <div class="video-vert-wrap">
+          <div class="video-vert" data-video-src="https://youtube.com/shorts/9c42yYjS2cw" data-video-name="PASHY"
+            data-video-label="SERVIZIO TG" style="background-image:url('./pashy.jpeg');">
+            <div class="video-corner">CAM · 01</div>
+            <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
+            <div class="video-play-btn">&#9654;</div>
+            <div class="video-placeholder-lbl">SERVIZIO TG</div>
+            <div class="video-placeholder-name">PASHY</div>
+          </div>
+        </div>
+        <button class="btn-tg-next" onclick="startRiddleLoading('isa')">Accedi alle deposizioni &rarr;</button>
+      </div>
+      <div class="tg-ticker">
+        <div class="tg-ticker-inner">CASO PASHY · OMICIDIO IRRISOLTO · TRE SOSPETTATI FERMATI · INDAGINI IN CORSO ·
+          QUESTURA DI MILANO · CASO PASHY · OMICIDIO IRRISOLTO · TRE SOSPETTATI FERMATI</div>
       </div>
     </div>
-    <button class="btn-tg-next" onclick="startRiddleLoading('isa')">Accedi alle deposizioni &rarr;</button>
-  </div>
-  <div class="tg-ticker">
-    <div class="tg-ticker-inner">CASO PASHY · OMICIDIO IRRISOLTO · TRE SOSPETTATI FERMATI · INDAGINI IN CORSO · QUESTURA DI MILANO · CASO PASHY · OMICIDIO IRRISOLTO · TRE SOSPETTATI FERMATI</div>
-  </div>
-</div>
 
-<!-- ══ IND 1 — ISA ══ -->
-<div id="ind-isa-screen" class="screen ind-screen">
-  <div class="ind-topbar">
-    <div class="ind-title">CASO PASHY · DEPOSIZIONE 1</div>
-    <div class="ind-badge">RISERVATO</div>
-  </div>
-  <div class="ind-body">
-    <div class="ind-doc" id="ind-doc-isa">
-      <div class="ind-stripe"></div>
-      <div class="ind-susp-label">DEPOSIZIONE · SOSPETTATO 1</div>
-      <div class="ind-susp-name">ISA</div>
-      <div class="ind-layout">
-        <div class="ind-media">
-          <div class="video-vert-wrap">
-            <div class="video-vert" data-video-src="https://youtube.com/shorts/BTczH_llxys"  data-video-name="ISA" data-video-label="DEPOSIZIONE VIDEO" style="background-image:url('./pashy_isa.jpeg');">
+    <!-- ══ IND 1 — ISA ══ -->
+    <div id="ind-isa-screen" class="screen ind-screen">
+      <div class="ind-topbar">
+        <div class="ind-title">CASO PASHY · DEPOSIZIONE 1</div>
+        <div class="ind-badge">RISERVATO</div>
+      </div>
+      <div class="ind-body">
+        <div class="ind-doc" id="ind-doc-isa">
+          <div class="ind-stripe"></div>
+          <div class="ind-susp-label">DEPOSIZIONE · SOSPETTATO 1</div>
+          <div class="ind-susp-name">ISA</div>
+          <div class="ind-layout">
+            <div class="ind-media">
+              <div class="video-vert-wrap">
+                <div class="video-vert" data-video-src="https://youtube.com/shorts/BTczH_llxys" data-video-name="ISA"
+                  data-video-label="DEPOSIZIONE VIDEO" style="background-image:url('./pashy_isa.jpeg');">
+                  <div class="video-corner">CAM · 01</div>
+                  <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
+                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-placeholder-lbl">DEPOSIZIONE VIDEO</div>
+                  <div class="video-placeholder-name">ISA</div>
+                </div>
+              </div>
+            </div>
+            <div class="ind-text" id="ind-text-isa">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+          <div class="ind-stripe-b"></div>
+          <div class="solved-stamp" id="solved-stamp-isa">RISOLTO</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TG 1 ══ -->
+    <div id="tg1-screen" class="screen tg-screen">
+      <div class="tg-topbar">
+        <div class="tg-channel">TG · CASO PASHY</div>
+        <div class="tg-ora" id="tg-ora-1"></div>
+      </div>
+      <div class="tg-body">
+        <div class="tg-breaking">AGGIORNAMENTO INDAGINI</div>
+        <div class="tg-headline">LUOGO DEL DELITTO<br>IDENTIFICATO</div>
+        <div class="video-vert-wrap">
+          <div class="video-vert" data-video-name="ISA · INTERVISTA" data-video-label="SERVIZIO TG"
+            style="background-image:url('./pashy_isa.jpeg');">
+            <div class="video-corner">CAM · 02</div>
+            <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
+            <div class="video-play-btn">&#9654;</div>
+            <div class="video-placeholder-lbl">SERVIZIO TG</div>
+          </div>
+        </div>
+        <button class="btn-tg-next" onclick="startRiddleLoading('peak')">Prossima deposizione &rarr;</button>
+      </div>
+      <div class="tg-ticker">
+        <div class="tg-ticker-inner">LUOGO DEL DELITTO SCOPERTO · INDAGINI IN CORSO · CASO PASHY · QUESTURA DI MILANO ·
+          LUOGO DEL DELITTO SCOPERTO · INDAGINI IN CORSO</div>
+      </div>
+    </div>
+
+    <!-- ══ IND 2 — PEAK ══ -->
+    <div id="ind-peak-screen" class="screen ind-screen">
+      <div class="ind-topbar">
+        <div class="ind-title">CASO PASHY · DEPOSIZIONE 2</div>
+        <div class="ind-badge">RISERVATO</div>
+      </div>
+      <div class="ind-body">
+        <div class="ind-doc" id="ind-doc-peak">
+          <div class="ind-stripe"></div>
+          <div class="ind-susp-label">DEPOSIZIONE · SOSPETTATO 2</div>
+          <div class="ind-susp-name">PEAK</div>
+          <div class="ind-layout">
+            <div class="ind-media">
+              <div class="video-vert-wrap">
+                <div class="video-vert" data-video-src="https://youtube.com/shorts/T--zH88dahg" data-video-name="PEAK"
+                  data-video-label="DEPOSIZIONE VIDEO" style="background-image:url('./pashy_peak.jpeg');">
+                  <div class="video-corner">CAM · 01</div>
+                  <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
+                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-placeholder-lbl">DEPOSIZIONE VIDEO</div>
+                  <div class="video-placeholder-name">PEAK</div>
+                </div>
+              </div>
+            </div>
+            <div class="ind-text" id="ind-text-peak">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+          <div class="ind-stripe-b"></div>
+          <div class="solved-stamp" id="solved-stamp-peak">RISOLTO</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TG 2 ══ -->
+    <div id="tg2-screen" class="screen tg-screen">
+      <div class="tg-topbar">
+        <div class="tg-channel">TG · CASO PASHY</div>
+        <div class="tg-ora" id="tg-ora-2"></div>
+      </div>
+      <div class="tg-body">
+        <div class="tg-breaking">AGGIORNAMENTO INDAGINI</div>
+        <div class="tg-headline">ARMA DEL DELITTO<br>TROVATA</div>
+        <div class="video-vert-wrap">
+          <div class="video-vert" data-video-name="PEAK · INTERVISTA" data-video-label="SERVIZIO TG"
+            style="background-image:url('./pashy_peak.jpeg');">
+            <div class="video-corner">CAM · 02</div>
+            <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
+            <div class="video-play-btn">&#9654;</div>
+            <div class="video-placeholder-lbl">SERVIZIO TG</div>
+          </div>
+        </div>
+        <button class="btn-tg-next" onclick="startRiddleLoading('gio')">Prossima deposizione &rarr;</button>
+      </div>
+      <div class="tg-ticker">
+        <div class="tg-ticker-inner">ARMA DEL DELITTO IDENTIFICATA · CASO PASHY · TERZO INTERROGATORIO IN CORSO ·
+          QUESTURA DI MILANO · ARMA DEL DELITTO IDENTIFICATA · CASO PASHY</div>
+      </div>
+    </div>
+
+    <!-- ══ IND 3 — GIO ══ -->
+    <div id="ind-gio-screen" class="screen ind-screen">
+      <div class="ind-topbar">
+        <div class="ind-title">CASO PASHY · DEPOSIZIONE 3</div>
+        <div class="ind-badge">RISERVATO</div>
+      </div>
+      <div class="ind-body">
+        <div class="ind-doc" id="ind-doc-gio">
+          <div class="ind-stripe"></div>
+          <div class="ind-susp-label">DEPOSIZIONE · SOSPETTATO 3</div>
+          <div class="ind-susp-name">GIO</div>
+          <div class="ind-layout">
+            <div class="ind-media">
+              <div class="video-vert-wrap">
+                <div class="video-vert" data-video-src="https://youtube.com/shorts/IQzO2ZieNOg" data-video-name="GIO"
+                  data-video-label="DEPOSIZIONE VIDEO" style="background-image:url('./pashy_gio.jpeg');">
+                  <div class="video-corner">CAM · 01</div>
+                  <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
+                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-placeholder-lbl">DEPOSIZIONE VIDEO</div>
+                  <div class="video-placeholder-name">GIO</div>
+                </div>
+              </div>
+            </div>
+            <div class="ind-text" id="ind-text-gio">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+          <div class="ind-stripe-b"></div>
+          <div class="solved-stamp" id="solved-stamp-gio">RISOLTO</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TG 3 ══ -->
+    <div id="tg3-screen" class="screen tg-screen">
+      <div class="tg-topbar">
+        <div class="tg-channel">TG · CASO PASHY</div>
+        <div class="tg-ora" id="tg-ora-3"></div>
+      </div>
+      <div class="tg-body">
+        <div class="tg-breaking">SVOLTA NEL CASO</div>
+        <div class="tg-headline">MOVENTE SVELATO<br>CASO QUASI CHIUSO</div>
+        <div class="video-vert-wrap">
+          <div class="video-vert" data-video-name="GIO · INTERVISTA" data-video-label="SERVIZIO TG"
+            style="background-image:url('./pashy_gio.jpeg');">
+            <div class="video-corner">CAM · 02</div>
+            <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
+            <div class="video-play-btn">&#9654;</div>
+            <div class="video-placeholder-lbl">SERVIZIO TG</div>
+          </div>
+        </div>
+        <button class="btn-tg-next" onclick="showPashy()">Ascolta il nastro di Pashy &rarr;</button>
+      </div>
+      <div class="tg-ticker">
+        <div class="tg-ticker-inner">MOVENTE IDENTIFICATO · NASTRO SEGRETO RECUPERATO · CASO PASHY · QUESTURA DI MILANO
+          · COLPEVOLE QUASI IDENTIFICATO · CASO PASHY</div>
+      </div>
+    </div>
+
+    <!-- ══ PASHY TAPE ══ -->
+    <div id="pashy-screen" class="ind-screen screen">
+      <div class="tape-lbl-top">NASTRO RECUPERATO · POLIZIA SCIENTIFICA</div>
+      <div class="tape-wrap">
+        <div class="tape-reels">
+          <div class="reel"></div>
+          <div class="tape-inner-lbl">REC · IN CORSO</div>
+          <div class="reel"></div>
+        </div>
+        <div class="pashy-tape-body">
+          <div class="pashy-video-wrap">
+            <div class="video-vert" data-video-src="https://youtube.com/shorts/XifFaAn2Erg" data-video-name="PARTE 1/3"
+              data-video-label="NASTRO PASHY" style="background-image:url('./pashy.jpeg');" id="pashy-vid">
               <div class="video-corner">CAM · 01</div>
               <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
               <div class="video-play-btn">&#9654;</div>
-              <div class="video-placeholder-lbl">DEPOSIZIONE VIDEO</div>
-              <div class="video-placeholder-name">ISA</div>
+              <div class="video-placeholder-lbl">NASTRO PASHY</div>
+              <div class="video-placeholder-name" id="pashy-vid-lbl">PARTE 1/3</div>
             </div>
           </div>
+          <div id="tape-txt" style="width:100%;"></div>
         </div>
-        <div class="ind-text" id="ind-text-isa">
-          <!-- rendered by JS -->
-        </div>
-      </div>
-      <div class="ind-stripe-b"></div>
-      <div class="solved-stamp" id="solved-stamp-isa">RISOLTO</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ TG 1 ══ -->
-<div id="tg1-screen" class="screen tg-screen">
-  <div class="tg-topbar">
-    <div class="tg-channel">TG · CASO PASHY</div>
-    <div class="tg-ora" id="tg-ora-1"></div>
-  </div>
-  <div class="tg-body">
-    <div class="tg-breaking">AGGIORNAMENTO INDAGINI</div>
-    <div class="tg-headline">LUOGO DEL DELITTO<br>IDENTIFICATO</div>
-    <div class="video-vert-wrap">
-      <div class="video-vert" data-video-name="ISA · INTERVISTA" data-video-label="SERVIZIO TG" style="background-image:url('./pashy_isa.jpeg');">
-        <div class="video-corner">CAM · 02</div>
-        <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
-        <div class="video-play-btn">&#9654;</div>
-        <div class="video-placeholder-lbl">SERVIZIO TG</div>
-      </div>
-    </div>
-    <button class="btn-tg-next" onclick="startRiddleLoading('peak')">Prossima deposizione &rarr;</button>
-  </div>
-  <div class="tg-ticker">
-    <div class="tg-ticker-inner">LUOGO DEL DELITTO SCOPERTO · INDAGINI IN CORSO · CASO PASHY · QUESTURA DI MILANO · LUOGO DEL DELITTO SCOPERTO · INDAGINI IN CORSO</div>
-  </div>
-</div>
-
-<!-- ══ IND 2 — PEAK ══ -->
-<div id="ind-peak-screen" class="screen ind-screen">
-  <div class="ind-topbar">
-    <div class="ind-title">CASO PASHY · DEPOSIZIONE 2</div>
-    <div class="ind-badge">RISERVATO</div>
-  </div>
-  <div class="ind-body">
-    <div class="ind-doc" id="ind-doc-peak">
-      <div class="ind-stripe"></div>
-      <div class="ind-susp-label">DEPOSIZIONE · SOSPETTATO 2</div>
-      <div class="ind-susp-name">PEAK</div>
-      <div class="ind-layout">
-        <div class="ind-media">
-          <div class="video-vert-wrap">
-            <div class="video-vert"  data-video-src="https://youtube.com/shorts/T--zH88dahg" data-video-name="PEAK" data-video-label="DEPOSIZIONE VIDEO" style="background-image:url('./pashy_peak.jpeg');">
-              <div class="video-corner">CAM · 01</div>
-              <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
-              <div class="video-play-btn">&#9654;</div>
-              <div class="video-placeholder-lbl">DEPOSIZIONE VIDEO</div>
-              <div class="video-placeholder-name">PEAK</div>
-            </div>
-          </div>
-        </div>
-        <div class="ind-text" id="ind-text-peak">
-          <!-- rendered by JS -->
+        <div class="tape-nav">
+          <button class="btn-tape" id="tp-prev" onclick="changeTape(-1)">&#9664; PREC</button>
+          <span class="tape-ct" id="tp-ct">1 / 3</span>
+          <button class="btn-tape" id="tp-next" onclick="changeTape(1)">SUCC &#9654;</button>
         </div>
       </div>
-      <div class="ind-stripe-b"></div>
-      <div class="solved-stamp" id="solved-stamp-peak">RISOLTO</div>
-    </div>
-  </div>
-</div>
 
-<!-- ══ TG 2 ══ -->
-<div id="tg2-screen" class="screen tg-screen">
-  <div class="tg-topbar">
-    <div class="tg-channel">TG · CASO PASHY</div>
-    <div class="tg-ora" id="tg-ora-2"></div>
-  </div>
-  <div class="tg-body">
-    <div class="tg-breaking">AGGIORNAMENTO INDAGINI</div>
-    <div class="tg-headline">ARMA DEL DELITTO<br>TROVATA</div>
-    <div class="video-vert-wrap">
-      <div class="video-vert" data-video-name="PEAK · INTERVISTA" data-video-label="SERVIZIO TG" style="background-image:url('./pashy_peak.jpeg');">
-        <div class="video-corner">CAM · 02</div>
-        <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
-        <div class="video-play-btn">&#9654;</div>
-        <div class="video-placeholder-lbl">SERVIZIO TG</div>
-      </div>
-    </div>
-    <button class="btn-tg-next" onclick="startRiddleLoading('gio')">Prossima deposizione &rarr;</button>
-  </div>
-  <div class="tg-ticker">
-    <div class="tg-ticker-inner">ARMA DEL DELITTO IDENTIFICATA · CASO PASHY · TERZO INTERROGATORIO IN CORSO · QUESTURA DI MILANO · ARMA DEL DELITTO IDENTIFICATA · CASO PASHY</div>
-  </div>
-</div>
-
-<!-- ══ IND 3 — GIO ══ -->
-<div id="ind-gio-screen" class="screen ind-screen">
-  <div class="ind-topbar">
-    <div class="ind-title">CASO PASHY · DEPOSIZIONE 3</div>
-    <div class="ind-badge">RISERVATO</div>
-  </div>
-  <div class="ind-body">
-    <div class="ind-doc" id="ind-doc-gio">
-      <div class="ind-stripe"></div>
-      <div class="ind-susp-label">DEPOSIZIONE · SOSPETTATO 3</div>
-      <div class="ind-susp-name">GIO</div>
-      <div class="ind-layout">
-        <div class="ind-media">
-          <div class="video-vert-wrap">
-            <div class="video-vert"  data-video-src="https://youtube.com/shorts/IQzO2ZieNOg" data-video-name="GIO" data-video-label="DEPOSIZIONE VIDEO" style="background-image:url('./pashy_gio.jpeg');">
-              <div class="video-corner">CAM · 01</div>
-              <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
-              <div class="video-play-btn">&#9654;</div>
-              <div class="video-placeholder-lbl">DEPOSIZIONE VIDEO</div>
-              <div class="video-placeholder-name">GIO</div>
-            </div>
-          </div>
+      <div class="accusa-wrap" id="accusa-wrap" style="display:none;">
+        <div class="accusa-lbl">CHI HA UCCISO PASHY? · SCRIVI IL NOME DEL COLPEVOLE</div>
+        <div class="accusa-row">
+          <input class="accusa-inp" id="accusa-inp" type="text" placeholder="NOME COGNOME..."
+            onkeydown="if(event.key==='Enter')checkAccusa()">
+          <button class="btn-accusa" onclick="checkAccusa()">ACCUSA</button>
         </div>
-        <div class="ind-text" id="ind-text-gio">
-          <!-- rendered by JS -->
+        <div class="accusa-err-msg" id="accusa-err">Nome non corretto. Riprova, ispettore.</div>
+      </div>
+    </div>
+
+    <!-- ══ RIDDLE LOADING ══ -->
+    <div id="riddle-loading-screen" class="screen">
+      <div class="rl-doc-icon">📁</div>
+      <div class="rl-typewriter" id="rl-typewriter"></div>
+      <div class="rl-bar-wrap">
+        <div class="rl-bar" id="rl-bar"></div>
+      </div>
+      <div class="rl-msg" id="rl-msg"></div>
+      <div class="rl-suspect-reveal" id="rl-reveal"></div>
+    </div>
+
+    <!-- ══ LOADING (finale) ══ -->
+    <div id="loading-screen" class="screen">
+      <div class="loading-title">ELABORAZIONE VERDETTO IN CORSO...</div>
+      <div class="loading-bar-wrap">
+        <div class="loading-bar" id="load-bar"></div>
+      </div>
+      <div class="loading-msg" id="load-msg">Analisi delle prove...</div>
+    </div>
+
+    <!-- ══ FINALE ══ -->
+    <div id="finale-screen" class="screen">
+      <div class="finale-stripe-top"></div>
+      <div class="finale-body">
+        <div class="fin-section-label">
+          <span class="fin-diamond">&#9670;</span> DEPOSIZIONE FINALE <span class="fin-diamond">&#9670;</span>
         </div>
-      </div>
-      <div class="ind-stripe-b"></div>
-      <div class="solved-stamp" id="solved-stamp-gio">RISOLTO</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ TG 3 ══ -->
-<div id="tg3-screen" class="screen tg-screen">
-  <div class="tg-topbar">
-    <div class="tg-channel">TG · CASO PASHY</div>
-    <div class="tg-ora" id="tg-ora-3"></div>
-  </div>
-  <div class="tg-body">
-    <div class="tg-breaking">SVOLTA NEL CASO</div>
-    <div class="tg-headline">MOVENTE SVELATO<br>CASO QUASI CHIUSO</div>
-    <div class="video-vert-wrap">
-      <div class="video-vert" data-video-name="GIO · INTERVISTA" data-video-label="SERVIZIO TG" style="background-image:url('./pashy_gio.jpeg');">
-        <div class="video-corner">CAM · 02</div>
-        <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
-        <div class="video-play-btn">&#9654;</div>
-        <div class="video-placeholder-lbl">SERVIZIO TG</div>
-      </div>
-    </div>
-    <button class="btn-tg-next" onclick="showPashy()">Ascolta il nastro di Pashy &rarr;</button>
-  </div>
-  <div class="tg-ticker">
-    <div class="tg-ticker-inner">MOVENTE IDENTIFICATO · NASTRO SEGRETO RECUPERATO · CASO PASHY · QUESTURA DI MILANO · COLPEVOLE QUASI IDENTIFICATO · CASO PASHY</div>
-  </div>
-</div>
-
-<!-- ══ PASHY TAPE ══ -->
-<div id="pashy-screen" class="screen">
-  <div class="tape-lbl-top">NASTRO RECUPERATO · POLIZIA SCIENTIFICA</div>
-  <div class="tape-wrap">
-    <div class="tape-reels">
-      <div class="reel"></div>
-      <div class="tape-inner-lbl">REC · IN CORSO</div>
-      <div class="reel"></div>
-    </div>
-    <div class="pashy-tape-body">
-      <div class="pashy-video-wrap">
-        <div class="video-vert"  data-video-src="https://youtube.com/shorts/XifFaAn2Erg" data-video-name="PARTE 1/3" data-video-label="NASTRO PASHY" style="background-image:url('./pashy.jpeg');" id="pashy-vid">
-          <div class="video-corner">CAM · 01</div>
-          <div class="video-rec-dot"><span class="rec-dot"></span>REC</div>
-          <div class="video-play-btn">&#9654;</div>
-          <div class="video-placeholder-lbl">NASTRO PASHY</div>
-          <div class="video-placeholder-name" id="pashy-vid-lbl">PARTE 1/3</div>
+        <hr class="fin-line">
+        <div class="fin-conf-title">CONFESSIONE DI GAIA</div>
+        <div class="fin-conf-sub">TRASCRITTA DALLA POLIZIA SCIENTIFICA</div>
+        <div class="fin-box">
+          <img src="./gaia_arrestata_ai.png" alt="Gaia arrestata" style="max-height:300px;">
+          <p>
+            <strong>Questo non è un regalo di compleanno.</strong><br><br>
+            I testimoni non sono tuoi amici.<br>
+            <strong>Sono le tue guardie carcerarie.</strong><br><br>
+            Gli indizi non sono enigmi.<br>
+            <strong>Sono i tuoi ricordi frammentati.</strong><br><br>
+            <strong>Pashy non è morto oggi.</strong><br><br>
+            Ti sei rinchiusa in questa stanza dalle 00:00 del tuo compleanno,<br>
+            condannata a rivivere questa ricerca<br>
+            <strong>finché non ammetterai la verità.</strong>
+          </p>
         </div>
+        <div class="fin-confessa">CONFESSA.</div>
+        <hr class="fin-divider2">
+        <div class="fin-birthday">BUON COMPLEANNO, KILLER.</div>
+        <button class="fin-restart" onclick="goTo('title'); resetGame();">← Ricomincia dall'inizio</button>
       </div>
-      <div id="tape-txt" style="width:100%;"></div>
+      <div class="finale-stripe-top"></div>
     </div>
-    <div class="tape-nav">
-      <button class="btn-tape" id="tp-prev" onclick="changeTape(-1)">&#9664; PREC</button>
-      <span class="tape-ct" id="tp-ct">1 / 3</span>
-      <button class="btn-tape" id="tp-next" onclick="changeTape(1)">SUCC &#9654;</button>
-    </div>
-  </div>
 
-  <div class="accusa-wrap" id="accusa-wrap" style="display:none;">
-    <div class="accusa-lbl">CHI HA UCCISO PASHY? · SCRIVI IL NOME DEL COLPEVOLE</div>
-    <div class="accusa-row">
-      <input class="accusa-inp" id="accusa-inp" type="text" placeholder="NOME COGNOME..."
-        onkeydown="if(event.key==='Enter')checkAccusa()">
-      <button class="btn-accusa" onclick="checkAccusa()">ACCUSA</button>
-    </div>
-    <div class="accusa-err-msg" id="accusa-err">Nome non corretto. Riprova, ispettore.</div>
-  </div>
-</div>
+  </div><!-- #root -->
 
-<!-- ══ RIDDLE LOADING ══ -->
-<div id="riddle-loading-screen" class="screen">
-  <div class="rl-doc-icon">📁</div>
-  <div class="rl-typewriter" id="rl-typewriter"></div>
-  <div class="rl-bar-wrap">
-    <div class="rl-bar" id="rl-bar"></div>
-  </div>
-  <div class="rl-msg" id="rl-msg"></div>
-  <div class="rl-suspect-reveal" id="rl-reveal"></div>
-</div>
+  <script>
+    // ─── DATA ───────────────────────────────────────────────
+    const S = {
+      isa: {
+        name: "ISA", img: "./pashy_isa.jpeg",
+        dep: `Sono stata io a trovare Pashy. Era mezzanotte passata. Stavo rientrando dagli allenamenti dell'Amatese. Non è importante sapere il motivo per cui ero lì…\n\nHo sentito un rumore da sotto, un urlo. Ho provato a vedere attraverso la vetrata ma nulla. Ho aperto la porta, sono salita e l'ho trovato a terra.\n\nHo chiamato subito. Non c'era nessun altro. Non avevo toccato niente. Le mie impronte non possono essere lì dentro. Ci sono stata più volte con voi in quella stanza, è vero, ma mai da sola. Non so perché il posto fosse vuoto.\n\nMa lo giuro, non sono stata io, non avevo nessun motivo per farlo.`,
+        answer: "JUMANJI", reveals: "luogo", revCat: "LUOGO DEL DELITTO", revVal: "La bellissima saletta del Jumanji"
+      },
+      peak: {
+        name: "PEAK", img: "./pashy_peak.jpeg",
+        dep: `Pashy e io eravamo amici da anni. Mi confidava tutto anche se da fuori non sembrava.\n\nQuella notte ero a casa. Da solo sì, ma a casa. Non sono uscito. Ho bevuto talmente tanto da non ricordarmi che giorno fosse. \n\nPashy ultimamente mi cantava spesso quella canzone di Marracash... Non so cosa volesse significare. Non so cosa tramasse...\n\nSo solo che Pashy aveva paura di qualcuno, era spaventato.`,
+        answer: "MARGARITA", reveals: "arma", revCat: "ARMA DEL DELITTO", revVal: "Margarita (come la canzone di Marracash)"
+      },
+      gio: {
+        name: "GIO", img: "./pashy_gio.jpeg",
+        dep: `So che ti farà male quello che sto per dirti…\n\nMa io non ero lì. Non c'entro niente. Pashy e io avevamo chiuso da mesi. Da un giorno all'altro ha troncato senza dire il perché, forse aveva paura.\n\nSono sempre stata innamorata di lui ma lui non ha mai ricambiato fino in fondo evidentemente. Nessun messaggio, nessuna chiamata. La nostra storia non so se può essere rilevante al caso.\n\nQuella notte però ero fuori città, lo giuro.`,
+        answer: "GELOSIA", reveals: "movente", revCat: "MOVENTE", revVal: "Gelosia e amore non corrisposto"
+      },
+    };
 
-<!-- ══ LOADING (finale) ══ -->
-<div id="loading-screen" class="screen">
-  <div class="loading-title">ELABORAZIONE VERDETTO IN CORSO...</div>
-  <div class="loading-bar-wrap">
-    <div class="loading-bar" id="load-bar"></div>
-  </div>
-  <div class="loading-msg" id="load-msg">Analisi delle prove...</div>
-</div>
+    const TAPE = [
+      {
+        lbl: "PARTE PRIMA — TENERA", vidLbl: "PARTE 1/3",
+        videoSrc: "https://youtube.com/shorts/XifFaAn2Erg",
+        txt: `"Ciao.\n\nNon so se guarderai mai questo. Spero di no in realtà. Spero che domani mattina ci ridiamo su.\n\nMa nel caso.\n\nRipensavo a quegli abbracci in birreria, a mangiare i bocconcini di pollo e a parlare del niente. Ci penso spesso. Non te l'ho mai detto perché sembrava stupido. Non lo era.\n\nSei speciale per me. Forse lo sai. Forse no. Volevo dirtelo in faccia. Non riuscivo."`,
+        pause: null
+      },
+      {
+        lbl: "PARTE SECONDA — LA SVOLTA", vidLbl: "PARTE 2/3",
+        videoSrc: "https://youtube.com/shorts/PARTE2_ID",
+        txt: `"C'è una cosa che non torna. L'ho capita stanotte.\n\nIsa, Peak, Gio. Li conosco tutti, chi da mesi, chi da anni. Ma stasera ognuno di loro ha detto una cosa diversa. E le cose diverse non tornano.\n\nQualcuno ha mentito. Forse tutti.\n\nLa cosa che non capisco: perché proteggono qualcuno?\n\nHo un'idea. Ma ho bisogno che tu ci arrivi da sola. Sei l'unica in quella stanza che non ha niente da nascondere."`,
+        pause: null
+      },
+      {
+        lbl: "PARTE TERZA — IL FINALE", vidLbl: "PARTE 3/3",
+        videoSrc: "https://youtube.com/shorts/zaC6dYB6DTQ",
+        txt: `"Sai cosa mi ha sempre colpito di te?\n\nChe quando entri in una stanza la gente smette di fingere.\n\nNon so se lo sai. Probabilmente no.\n\nGuarda i tuoi amici adesso. Guarda le loro facce.\n\nQualcuno non sta reggendo lo sguardo.\n\nQuello è il tuo indizio."`,
+        pause: null
+      }
+    ];
 
-<!-- ══ FINALE ══ -->
-<div id="finale-screen" class="screen">
-  <div class="finale-stripe-top"></div>
-  <div class="finale-body">
-    <div class="fin-section-label">
-      <span class="fin-diamond">&#9670;</span> DEPOSIZIONE FINALE <span class="fin-diamond">&#9670;</span>
-    </div>
-    <hr class="fin-line">
-    <div class="fin-conf-title">CONFESSIONE DI GAIA</div>
-    <div class="fin-conf-sub">TRASCRITTA DALLA POLIZIA SCIENTIFICA</div>
-    <div class="fin-box">
-      <img src="./gaia_arrestata_ai.png" alt="Gaia arrestata" style="max-height:300px;">
-      <p>
-        <strong>Questo non è un regalo di compleanno.</strong><br><br>
-        I testimoni non sono tuoi amici.<br>
-        <strong>Sono le tue guardie carcerarie.</strong><br><br>
-        Gli indizi non sono enigmi.<br>
-        <strong>Sono i tuoi ricordi frammentati.</strong><br><br>
-        <strong>Pashy non è morto oggi.</strong><br><br>
-        Ti sei rinchiusa in questa stanza dalle 00:00 del tuo compleanno,<br>
-        condannata a rivivere questa ricerca<br>
-        <strong>finché non ammetterai la verità.</strong>
-      </p>
-    </div>
-    <div class="fin-confessa">CONFESSA.</div>
-    <hr class="fin-divider2">
-    <div class="fin-birthday">BUON COMPLEANNO, KILLER.</div>
-    <button class="fin-restart" onclick="goTo('title'); resetGame();">← Ricomincia dall'inizio</button>
-  </div>
-  <div class="finale-stripe-top"></div>
-</div>
+    const RIDDLE_MSGS = [
+      "Acquisizione deposizione in corso...",
+      "Verifica documenti riservati...",
+      "Accesso al fascicolo successivo...",
+      "Caricamento testimonianza..."
+    ];
+    const LOAD_MSGS = ["Analisi delle prove...", "Verifica degli alibi...", "Confronto delle deposizioni...", "Identificazione del colpevole...", "Preparazione del verdetto...", "Archiviazione del caso..."];
 
-</div><!-- #root -->
+    let wrongCounts = { isa: 0, peak: 0, gio: 0 };
+    let tapeIdx = 0;
 
-<script>
-// ─── DATA ───────────────────────────────────────────────
-const S = {
-  isa: {
-    name: "ISA", img: "./pashy_isa.jpeg",
-    dep: `Sono stata io a trovare Pashy. Era mezzanotte passata. Stavo rientrando dagli allenamenti dell'Amatese. Non è importante sapere il motivo per cui ero lì…\n\nHo sentito un rumore da sotto, un urlo. Ho provato a vedere attraverso la vetrata ma nulla. Ho aperto la porta, sono salita e l'ho trovato a terra.\n\nHo chiamato subito. Non c'era nessun altro. Non avevo toccato niente. Le mie impronte non possono essere lì dentro. Ci sono stata più volte con voi in quella stanza, è vero, ma mai da sola. Non so perché il posto fosse vuoto.\n\nMa lo giuro, non sono stata io, non avevo nessun motivo per farlo.`,
-    answer: "JUMANJI", reveals: "luogo", revCat: "LUOGO DEL DELITTO", revVal: "La bellissima saletta del Jumanji"
-  },
-  peak: {
-    name: "PEAK", img: "./pashy_peak.jpeg",
-    dep: `Pashy e io eravamo amici da anni. Mi confidava tutto anche se da fuori non sembrava.\n\nQuella notte ero a casa. Da solo sì, ma a casa. Non sono uscito. Ho bevuto talmente tanto da non ricordarmi che giorno fosse. \n\nPashy ultimamente mi cantava spesso quella canzone di Marracash... Non so cosa volesse significare. Non so cosa tramasse...\n\nSo solo che Pashy aveva paura di qualcuno, era spaventato.`,
-    answer: "MARGARITA", reveals: "arma", revCat: "ARMA DEL DELITTO", revVal: "Margarita (come la canzone di Marracash)"
-  },
-  gio: {
-    name: "GIO", img: "./pashy_gio.jpeg",
-    dep: `So che ti farà male quello che sto per dirti…\n\nMa io non ero lì. Non c'entro niente. Pashy e io avevamo chiuso da mesi. Da un giorno all'altro ha troncato senza dire il perché, forse aveva paura.\n\nSono sempre stata innamorata di lui ma lui non ha mai ricambiato fino in fondo evidentemente. Nessun messaggio, nessuna chiamata. La nostra storia non so se può essere rilevante al caso.\n\nQuella notte però ero fuori città, lo giuro.`,
-    answer: "GELOSIA", reveals: "movente", revCat: "MOVENTE", revVal: "Gelosia e amore non corrisposto"
-  }
-};
-
-const TAPE = [
-  {
-    lbl: "PARTE PRIMA — TENERA", vidLbl: "PARTE 1/3",
-    videoSrc: "https://youtube.com/shorts/XifFaAn2Erg",
-    txt: `"Ciao.\n\nNon so se guarderai mai questo. Spero di no in realtà. Spero che domani mattina ci ridiamo su.\n\nMa nel caso.\n\nRipensavo a quegli abbracci in birreria, a mangiare i bocconcini di pollo e a parlare del niente. Ci penso spesso. Non te l'ho mai detto perché sembrava stupido. Non lo era.\n\nSei speciale per me. Forse lo sai. Forse no. Volevo dirtelo in faccia. Non riuscivo."`,
-    pause: null
-  },
-  {
-    lbl: "PARTE SECONDA — LA SVOLTA", vidLbl: "PARTE 2/3",
-    videoSrc: "https://youtube.com/shorts/PARTE2_ID",
-    txt: `"C'è una cosa che non torna. L'ho capita stanotte.\n\nIsa, Peak, Gio. Li conosco tutti, chi da mesi, chi da anni. Ma stasera ognuno di loro ha detto una cosa diversa. E le cose diverse non tornano.\n\nQualcuno ha mentito. Forse tutti.\n\nLa cosa che non capisco: perché proteggono qualcuno?\n\nHo un'idea. Ma ho bisogno che tu ci arrivi da sola. Sei l'unica in quella stanza che non ha niente da nascondere."`,
-    pause: null
-  },
-  {
-    lbl: "PARTE TERZA — IL FINALE", vidLbl: "PARTE 3/3",
-    videoSrc: "https://youtube.com/shorts/zaC6dYB6DTQ",
-    txt: `"Sai cosa mi ha sempre colpito di te?\n\nChe quando entri in una stanza la gente smette di fingere.\n\nNon so se lo sai. Probabilmente no.\n\nGuarda i tuoi amici adesso. Guarda le loro facce.\n\nQualcuno non sta reggendo lo sguardo.\n\nQuello è il tuo indizio."`,
-    pause: null
-  }
-];
-
-const RIDDLE_MSGS = [
-  "Acquisizione deposizione in corso...",
-  "Verifica documenti riservati...",
-  "Accesso al fascicolo successivo...",
-  "Caricamento testimonianza..."
-];
-const LOAD_MSGS = ["Analisi delle prove...", "Verifica degli alibi...", "Confronto delle deposizioni...", "Identificazione del colpevole...", "Preparazione del verdetto...", "Archiviazione del caso..."];
-
-let wrongCounts = { isa: 0, peak: 0, gio: 0 };
-let tapeIdx = 0;
-
-// ─── NAVIGATION ─────────────────────────────────────────
-function goTo(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id + '-screen').classList.add('active');
-  window.scrollTo(0, 0);
-  const oraEl = document.getElementById('tg-ora-' + id.replace('tg','').replace('-',''));
-  if (oraEl) oraEl.textContent = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'});
-}
-
-function setTgOra(elId) {
-  const el = document.getElementById(elId);
-  if (el) el.textContent = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'});
-}
-
-// ─── TRASCRIZIONE TOGGLE ─────────────────────────────────
-function toggleTrascrizione(id) {
-  const btn = document.getElementById('btn-tr-' + id);
-  const panel = document.getElementById('tr-panel-' + id);
-  if (!btn || !panel) return;
-  const isOpen = panel.classList.contains('open');
-  panel.classList.toggle('open', !isOpen);
-  btn.classList.toggle('open', !isOpen);
-  btn.querySelector('.tr-txt').textContent = isOpen ? 'MOSTRA TRASCRIZIONE VERBALE' : 'NASCONDI TRASCRIZIONE';
-}
-
-// ─── RIDDLE LOADING ──────────────────────────────────────
-function startRiddleLoading(suspectId) {
-  const bar = document.getElementById('rl-bar');
-  const msg = document.getElementById('rl-msg');
-  const tw = document.getElementById('rl-typewriter');
-  const reveal = document.getElementById('rl-reveal');
-
-  bar.style.width = '0';
-  reveal.classList.remove('visible');
-  reveal.textContent = '';
-
-  const msgs = [...RIDDLE_MSGS].sort(() => Math.random() - 0.5);
-  let pct = 0, msgIdx = 0;
-  msg.textContent = msgs[0];
-
-  const label = `ACCESSO DEPOSIZIONE: ${S[suspectId]?.name || '???'}`;
-  tw.textContent = '';
-  let ci = 0;
-  const twIv = setInterval(() => {
-    if (ci < label.length) { tw.textContent += label[ci++]; }
-    else clearInterval(twIv);
-  }, 38);
-
-  goTo('riddle-loading');
-
-  const iv = setInterval(() => {
-    pct += 2.2;
-    bar.style.width = Math.min(pct, 100) + '%';
-    const ni = Math.min(Math.floor(pct / 100 * msgs.length), msgs.length - 1);
-    if (ni !== msgIdx) { msgIdx = ni; msg.textContent = msgs[msgIdx]; }
-    if (pct >= 75 && !reveal.classList.contains('visible')) {
-      reveal.textContent = `SOSPETTATO: ${S[suspectId].name}`;
-      reveal.classList.add('visible');
+    // ─── NAVIGATION ─────────────────────────────────────────
+    function goTo(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id + '-screen').classList.add('active');
+      window.scrollTo(0, 0);
+      const oraEl = document.getElementById('tg-ora-' + id.replace('tg', '').replace('-', ''));
+      if (oraEl) oraEl.textContent = new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
     }
-    if (pct >= 100) {
-      clearInterval(iv);
-      setTimeout(() => {
-        renderIndovinello(suspectId);
-        goTo('ind-' + suspectId);
-      }, 350);
+
+    function setTgOra(elId) {
+      const el = document.getElementById(elId);
+      if (el) el.textContent = new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
     }
-  }, 35);
-}
 
-// ─── RENDER INDOVINELLO ──────────────────────────────────
-function renderIndovinello(id) {
-  const s = S[id];
-  const depHtml = s.dep.replace(/\n\n/g, '</p><p style="margin-top:0.5rem;">').replace(/\n/g, '<br>');
-  const wc = wrongCounts[id] || 0;
-  const wrongMsg = wc > 0
-    ? `<div class="wrong-banner show" id="wb-${id}"><div class="wrong-banner-txt">Risposta errata, ispettore. Rianalizza la deposizione.</div><div class="wrong-counter">TENTATIVI FALLITI: ${wc}</div></div>`
-    : `<div class="wrong-banner" id="wb-${id}"></div>`;
+    // ─── TRASCRIZIONE TOGGLE ─────────────────────────────────
+    function toggleTrascrizione(id) {
+      const btn = document.getElementById('btn-tr-' + id);
+      const panel = document.getElementById('tr-panel-' + id);
+      if (!btn || !panel) return;
+      const isOpen = panel.classList.contains('open');
+      panel.classList.toggle('open', !isOpen);
+      btn.classList.toggle('open', !isOpen);
+      btn.querySelector('.tr-txt').textContent = isOpen ? 'MOSTRA TRASCRIZIONE VERBALE' : 'NASCONDI TRASCRIZIONE';
+    }
 
-  let puzzHtml = '';
-  if (!wrongCounts[id + '_solved']) {
-    puzzHtml = `
+    // ─── RIDDLE LOADING ──────────────────────────────────────
+    function startRiddleLoading(suspectId) {
+      const bar = document.getElementById('rl-bar');
+      const msg = document.getElementById('rl-msg');
+      const tw = document.getElementById('rl-typewriter');
+      const reveal = document.getElementById('rl-reveal');
+
+      bar.style.width = '0';
+      reveal.classList.remove('visible');
+      reveal.textContent = '';
+
+      const msgs = [...RIDDLE_MSGS].sort(() => Math.random() - 0.5);
+      let pct = 0, msgIdx = 0;
+      msg.textContent = msgs[0];
+
+      const label = `ACCESSO DEPOSIZIONE: ${S[suspectId]?.name || '???'}`;
+      tw.textContent = '';
+      let ci = 0;
+      const twIv = setInterval(() => {
+        if (ci < label.length) { tw.textContent += label[ci++]; }
+        else clearInterval(twIv);
+      }, 38);
+
+      goTo('riddle-loading');
+
+      const iv = setInterval(() => {
+        pct += 2.2;
+        bar.style.width = Math.min(pct, 100) + '%';
+        const ni = Math.min(Math.floor(pct / 100 * msgs.length), msgs.length - 1);
+        if (ni !== msgIdx) { msgIdx = ni; msg.textContent = msgs[msgIdx]; }
+        if (pct >= 75 && !reveal.classList.contains('visible')) {
+
+          if (suspectId == 'pashy') {
+            reveal.textContent = `NASTRO SEGRETO`
+          } else {
+            reveal.textContent = `SOSPETTATO: ${S[suspectId].name}`;
+          }
+          reveal.classList.add('visible');
+        }
+        if (pct >= 100) {
+          clearInterval(iv);
+          setTimeout(() => {
+            if (suspectId == 'pashy') goTo('pashy');
+            renderIndovinello(suspectId);
+            goTo('ind-' + suspectId);
+          }, 350);
+        }
+      }, 35);
+    }
+
+    // ─── RENDER INDOVINELLO ──────────────────────────────────
+    function renderIndovinello(id) {
+      const s = S[id];
+      const depHtml = s.dep.replace(/\n\n/g, '</p><p style="margin-top:0.5rem;">').replace(/\n/g, '<br>');
+      const wc = wrongCounts[id] || 0;
+      const wrongMsg = wc > 0
+        ? `<div class="wrong-banner show" id="wb-${id}"><div class="wrong-banner-txt">Risposta errata, ispettore. Rianalizza la deposizione.</div><div class="wrong-counter">TENTATIVI FALLITI: ${wc}</div></div>`
+        : `<div class="wrong-banner" id="wb-${id}"></div>`;
+
+      let puzzHtml = '';
+      if (!wrongCounts[id + '_solved']) {
+        puzzHtml = `
     ${wrongMsg}
     <div class="ans-row">
       <span>${s.revCat}:</span>
@@ -1621,11 +1940,11 @@ function renderIndovinello(id) {
       <button class="btn-conf" onclick="checkA('${id}')">Conferma</button>
     </div>
     <div class="reveal-box" id="rb-${id}"></div>`;
-  } else {
-    puzzHtml = `<div class="reveal-box show"><div class="rev-cat">${s.revCat}</div><div class="rev-val">${s.revVal}</div></div>`;
-  }
+      } else {
+        puzzHtml = `<div class="reveal-box show"><div class="rev-cat">${s.revCat}</div><div class="rev-val">${s.revVal}</div></div>`;
+      }
 
-  document.getElementById('ind-text-' + id).innerHTML = `
+      document.getElementById('ind-text-' + id).innerHTML = `
     <div class="dep-label">DEPOSIZIONE UFFICIALE</div>
     <button class="btn-trascrizione" id="btn-tr-${id}" onclick="toggleTrascrizione('${id}')">
       <em class="tr-arrow">▶</em>
@@ -1638,73 +1957,73 @@ function renderIndovinello(id) {
     ${puzzHtml}
   `;
 
-  const stamp = document.getElementById('solved-stamp-' + id);
-  if (stamp) wrongCounts[id + '_solved'] ? stamp.classList.add('show') : stamp.classList.remove('show');
-}
-
-// ─── CHECK ANSWER ────────────────────────────────────────
-function checkA(id) {
-  const s = S[id];
-  const inp = document.getElementById('ai-' + id);
-  const val = inp.value.trim().toUpperCase();
-
-  if (val === s.answer) {
-    inp.classList.add('correct');
-    inp.disabled = true;
-    wrongCounts[id + '_solved'] = true;
-    const rb = document.getElementById('rb-' + id);
-    if (rb) {
-      rb.classList.add('show');
-      rb.innerHTML = `<div class="rev-cat">${s.revCat}</div><div class="rev-val">${s.revVal}</div>`;
+      const stamp = document.getElementById('solved-stamp-' + id);
+      if (stamp) wrongCounts[id + '_solved'] ? stamp.classList.add('show') : stamp.classList.remove('show');
     }
-    const wb = document.getElementById('wb-' + id);
-    if (wb) wb.classList.remove('show');
-    const stamp = document.getElementById('solved-stamp-' + id);
-    if (stamp) stamp.classList.add('show');
 
-    const nextMap = { isa: 'tg1', peak: 'tg2', gio: 'tg3' };
-    setTimeout(() => {
-      setTgOra('tg-ora-' + nextMap[id].replace('tg',''));
-      goTo(nextMap[id]);
-    }, 1800);
-  } else {
-    wrongCounts[id] = (wrongCounts[id] || 0) + 1;
-    inp.classList.remove('wrong');
-    void inp.offsetWidth;
-    inp.classList.add('wrong');
-    setTimeout(() => inp.classList.remove('wrong'), 400);
+    // ─── CHECK ANSWER ────────────────────────────────────────
+    function checkA(id) {
+      const s = S[id];
+      const inp = document.getElementById('ai-' + id);
+      const val = inp.value.trim().toUpperCase();
 
-    const wb = document.getElementById('wb-' + id);
-    if (wb) {
-      wb.innerHTML = `<div class="wrong-banner-txt">Risposta errata, ispettore. Rianalizza la deposizione.</div><div class="wrong-counter">TENTATIVI FALLITI: ${wrongCounts[id]}</div>`;
-      wb.classList.add('show');
+      if (val === s.answer) {
+        inp.classList.add('correct');
+        inp.disabled = true;
+        wrongCounts[id + '_solved'] = true;
+        const rb = document.getElementById('rb-' + id);
+        if (rb) {
+          rb.classList.add('show');
+          rb.innerHTML = `<div class="rev-cat">${s.revCat}</div><div class="rev-val">${s.revVal}</div>`;
+        }
+        const wb = document.getElementById('wb-' + id);
+        if (wb) wb.classList.remove('show');
+        const stamp = document.getElementById('solved-stamp-' + id);
+        if (stamp) stamp.classList.add('show');
+
+        const nextMap = { isa: 'tg1', peak: 'tg2', gio: 'tg3' };
+        setTimeout(() => {
+          setTgOra('tg-ora-' + nextMap[id].replace('tg', ''));
+          goTo(nextMap[id]);
+        }, 1800);
+      } else {
+        wrongCounts[id] = (wrongCounts[id] || 0) + 1;
+        inp.classList.remove('wrong');
+        void inp.offsetWidth;
+        inp.classList.add('wrong');
+        setTimeout(() => inp.classList.remove('wrong'), 400);
+
+        const wb = document.getElementById('wb-' + id);
+        if (wb) {
+          wb.innerHTML = `<div class="wrong-banner-txt">Risposta errata, ispettore. Rianalizza la deposizione.</div><div class="wrong-counter">TENTATIVI FALLITI: ${wrongCounts[id]}</div>`;
+          wb.classList.add('show');
+        }
+        inp.value = '';
+        inp.focus();
+      }
     }
-    inp.value = '';
-    inp.focus();
-  }
-}
 
-// ─── PASHY TAPE ──────────────────────────────────────────
-function showPashy() {
-  tapeIdx = 0;
-  renderTape();
-  goTo('pashy');
-}
+    // ─── PASHY TAPE ──────────────────────────────────────────
+    function showPashy() {
+      tapeIdx = 0;
+      renderTape();
+      startRiddleLoading('pashy')
+    }
 
-function renderTape() {
-  const p = TAPE[tapeIdx];
-  const html = p.txt.replace(/\n\n/g, '</p><p style="margin-top:0.6rem;">').replace(/\n/g, '<br>');
-  const pause = p.pause ? `<span class="tape-pause">${p.pause}</span>` : '';
+    function renderTape() {
+      const p = TAPE[tapeIdx];
+      const html = p.txt.replace(/\n\n/g, '</p><p style="margin-top:0.6rem;">').replace(/\n/g, '<br>');
+      const pause = p.pause ? `<span class="tape-pause">${p.pause}</span>` : '';
 
-  // Update video placeholder label and src
-  document.getElementById('pashy-vid-lbl').textContent = p.vidLbl;
-  const vidEl = document.getElementById('pashy-vid');
-  if (vidEl && p.videoSrc) vidEl.dataset.videoSrc = p.videoSrc;
+      // Update video placeholder label and src
+      document.getElementById('pashy-vid-lbl').textContent = p.vidLbl;
+      const vidEl = document.getElementById('pashy-vid');
+      if (vidEl && p.videoSrc) vidEl.dataset.videoSrc = p.videoSrc;
 
-  // Render trascrizione with toggle (collapsed by default, state preserved per tape)
-  const tapeKey = 'tape-tr-' + tapeIdx;
-  const isOpen = window._tapeTranscOpen && window._tapeTranscOpen[tapeKey];
-  document.getElementById('tape-txt').innerHTML = `
+      // Render trascrizione with toggle (collapsed by default, state preserved per tape)
+      const tapeKey = 'tape-tr-' + tapeIdx;
+      const isOpen = window._tapeTranscOpen && window._tapeTranscOpen[tapeKey];
+      document.getElementById('tape-txt').innerHTML = `
     <button class="btn-trascrizione btn-trascrizione-dark ${isOpen ? 'open' : ''}"
       id="btn-tape-tr-${tapeIdx}"
       onclick="toggleTapeTrascrizione(${tapeIdx})">
@@ -1716,162 +2035,163 @@ function renderTape() {
     </div>
   `;
 
-  document.getElementById('tp-prev').disabled = tapeIdx === 0;
-  document.getElementById('tp-next').disabled = tapeIdx === TAPE.length - 1;
-  document.getElementById('tp-ct').textContent = `${tapeIdx + 1} / ${TAPE.length}`;
-  const aw = document.getElementById('accusa-wrap');
-  aw.style.display = tapeIdx === TAPE.length - 1 ? '' : 'none';
-}
+      document.getElementById('tp-prev').disabled = tapeIdx === 0;
+      document.getElementById('tp-next').disabled = tapeIdx === TAPE.length - 1;
+      document.getElementById('tp-ct').textContent = `${tapeIdx + 1} / ${TAPE.length}`;
+      const aw = document.getElementById('accusa-wrap');
+      aw.style.display = tapeIdx === TAPE.length - 1 ? '' : 'none';
+    }
 
-function toggleTapeTrascrizione(idx) {
-  if (!window._tapeTranscOpen) window._tapeTranscOpen = {};
-  const key = 'tape-tr-' + idx;
-  const isOpen = !!window._tapeTranscOpen[key];
-  window._tapeTranscOpen[key] = !isOpen;
-  const btn = document.getElementById('btn-tape-tr-' + idx);
-  const panel = document.getElementById('tr-tape-panel-' + idx);
-  if (!btn || !panel) return;
-  panel.classList.toggle('open', !isOpen);
-  btn.classList.toggle('open', !isOpen);
-  btn.querySelector('.tr-txt').textContent = !isOpen ? 'NASCONDI TRASCRIZIONE' : 'MOSTRA TRASCRIZIONE VERBALE';
-}
+    function toggleTapeTrascrizione(idx) {
+      if (!window._tapeTranscOpen) window._tapeTranscOpen = {};
+      const key = 'tape-tr-' + idx;
+      const isOpen = !!window._tapeTranscOpen[key];
+      window._tapeTranscOpen[key] = !isOpen;
+      const btn = document.getElementById('btn-tape-tr-' + idx);
+      const panel = document.getElementById('tr-tape-panel-' + idx);
+      if (!btn || !panel) return;
+      panel.classList.toggle('open', !isOpen);
+      btn.classList.toggle('open', !isOpen);
+      btn.querySelector('.tr-txt').textContent = !isOpen ? 'NASCONDI TRASCRIZIONE' : 'MOSTRA TRASCRIZIONE VERBALE';
+    }
 
-function changeTape(d) {
-  tapeIdx = Math.max(0, Math.min(TAPE.length - 1, tapeIdx + d));
-  renderTape();
-}
+    function changeTape(d) {
+      tapeIdx = Math.max(0, Math.min(TAPE.length - 1, tapeIdx + d));
+      renderTape();
+    }
 
-// ─── ACCUSA ──────────────────────────────────────────────
-function checkAccusa() {
-  const inp = document.getElementById('accusa-inp');
-  const val = inp.value.trim().toUpperCase().replace(/\s+/g, ' ');
-  const err = document.getElementById('accusa-err');
-  if (val === 'GAIA POGLIANI') {
-    inp.classList.add('corr');
-    inp.disabled = true;
-    err.classList.remove('show');
-    setTimeout(startLoading, 600);
-  } else {
-    inp.classList.remove('err');
-    void inp.offsetWidth;
-    inp.classList.add('err');
-    err.classList.add('show');
-    setTimeout(() => inp.classList.remove('err'), 400);
-  }
-}
+    // ─── ACCUSA ──────────────────────────────────────────────
+    function checkAccusa() {
+      const inp = document.getElementById('accusa-inp');
+      const val = inp.value.trim().toUpperCase().replace(/\s+/g, ' ');
+      const err = document.getElementById('accusa-err');
+      if (val === 'GAIA POGLIANI') {
+        inp.classList.add('corr');
+        inp.disabled = true;
+        err.classList.remove('show');
+        setTimeout(startLoading, 600);
+      } else {
+        inp.classList.remove('err');
+        void inp.offsetWidth;
+        inp.classList.add('err');
+        err.classList.add('show');
+        setTimeout(() => inp.classList.remove('err'), 400);
+      }
+    }
 
-function startLoading() {
-  goTo('loading');
-  const bar = document.getElementById('load-bar');
-  const msg = document.getElementById('load-msg');
-  let pct = 0, msgIdx = 0;
-  msg.textContent = LOAD_MSGS[0];
-  const iv = setInterval(() => {
-    pct += 1.4;
-    bar.style.width = Math.min(pct, 100) + '%';
-    const newIdx = Math.min(Math.floor(pct / 100 * LOAD_MSGS.length), LOAD_MSGS.length - 1);
-    if (newIdx !== msgIdx) { msgIdx = newIdx; msg.textContent = LOAD_MSGS[msgIdx]; }
-    if (pct >= 100) { clearInterval(iv); setTimeout(() => goTo('finale'), 500); }
-  }, 40);
-}
+    function startLoading() {
+      goTo('loading');
+      const bar = document.getElementById('load-bar');
+      const msg = document.getElementById('load-msg');
+      let pct = 0, msgIdx = 0;
+      msg.textContent = LOAD_MSGS[0];
+      const iv = setInterval(() => {
+        pct += 1.4;
+        bar.style.width = Math.min(pct, 100) + '%';
+        const newIdx = Math.min(Math.floor(pct / 100 * LOAD_MSGS.length), LOAD_MSGS.length - 1);
+        if (newIdx !== msgIdx) { msgIdx = newIdx; msg.textContent = LOAD_MSGS[msgIdx]; }
+        if (pct >= 100) { clearInterval(iv); setTimeout(() => goTo('finale'), 500); }
+      }, 40);
+    }
 
-// ─── RESET ───────────────────────────────────────────────
-function resetGame() {
-  wrongCounts = { isa: 0, peak: 0, gio: 0 };
-  tapeIdx = 0;
-  ['isa','peak','gio'].forEach(id => {
-    wrongCounts[id + '_solved'] = false;
-    const stamp = document.getElementById('solved-stamp-' + id);
-    if (stamp) stamp.classList.remove('show');
-    const txt = document.getElementById('ind-text-' + id);
-    if (txt) txt.innerHTML = '';
-  });
-  window._tapeTranscOpen = {};
-  const accInput = document.getElementById('accusa-inp');
-  if (accInput) { accInput.value = ''; accInput.classList.remove('corr','err'); accInput.disabled = false; }
-  document.getElementById('accusa-err').classList.remove('show');
-}
+    // ─── RESET ───────────────────────────────────────────────
+    function resetGame() {
+      wrongCounts = { isa: 0, peak: 0, gio: 0 };
+      tapeIdx = 0;
+      ['isa', 'peak', 'gio'].forEach(id => {
+        wrongCounts[id + '_solved'] = false;
+        const stamp = document.getElementById('solved-stamp-' + id);
+        if (stamp) stamp.classList.remove('show');
+        const txt = document.getElementById('ind-text-' + id);
+        if (txt) txt.innerHTML = '';
+      });
+      window._tapeTranscOpen = {};
+      const accInput = document.getElementById('accusa-inp');
+      if (accInput) { accInput.value = ''; accInput.classList.remove('corr', 'err'); accInput.disabled = false; }
+      document.getElementById('accusa-err').classList.remove('show');
+    }
 
-// ─── VIDEO MODAL ─────────────────────────────────────────
-function ytVideoId(url) {
-  let m = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/);
-  if (m) return m[1];
-  m = url.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
-  if (m) return m[1];
-  m = url.match(/[?&]v=([A-Za-z0-9_-]{11})/);
-  if (m) return m[1];
-  return null;
-}
+    // ─── VIDEO MODAL ─────────────────────────────────────────
+    function ytVideoId(url) {
+      let m = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/);
+      if (m) return m[1];
+      m = url.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
+      if (m) return m[1];
+      m = url.match(/[?&]v=([A-Za-z0-9_-]{11})/);
+      if (m) return m[1];
+      return null;
+    }
 
-function openVideoModal(el) {
-  const src   = el.dataset.videoSrc  || null;
-  const name  = el.dataset.videoName || el.querySelector('.video-placeholder-name')?.textContent || 'VIDEO';
-  const label = el.dataset.videoLabel || el.querySelector('.video-placeholder-lbl')?.textContent  || 'DEPOSIZIONE VIDEO';
-  const img   = (el.style.backgroundImage || '').replace(/url\(["']?|["']?\)/g, '');
+    function openVideoModal(el) {
+      const src = el.dataset.videoSrc || null;
+      const name = el.dataset.videoName || el.querySelector('.video-placeholder-name')?.textContent || 'VIDEO';
+      const label = el.dataset.videoLabel || el.querySelector('.video-placeholder-lbl')?.textContent || 'DEPOSIZIONE VIDEO';
+      const img = (el.style.backgroundImage || '').replace(/url\(["']?|["']?\)/g, '');
 
-  const box = document.getElementById('vm-video-box');
+      const box = document.getElementById('vm-video-box');
 
-  if (src) {
-    const ytId = ytVideoId(src);
-    if (ytId) {
-      const embedUrl = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
-      box.innerHTML = `<iframe
+      if (src) {
+        const ytId = ytVideoId(src);
+        if (ytId) {
+          const embedUrl = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+          box.innerHTML = `<iframe
         src="${embedUrl}"
         style="width:100%;height:100%;border:none;display:block;"
         allow="autoplay; encrypted-media; picture-in-picture"
         allowfullscreen
         loading="lazy"
       ></iframe>`;
-    } else {
-      box.innerHTML = `<video src="${src}" controls autoplay playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>`;
-    }
-  } else {
-    box.innerHTML = `
+        } else {
+          box.innerHTML = `<video src="${src}" controls autoplay playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>`;
+        }
+      } else {
+        box.innerHTML = `
       <div class="vm-no-video" style="${img ? 'background-image:url(' + img + ');background-size:cover;background-position:center;' : ''}">
         <div class="vm-cam">CAM · 01</div>
         <div class="vm-rec"><span class="rec-dot"></span>REC</div>
         <div class="vm-no-video-name">${name}</div>
         <div class="vm-no-video-sub">VIDEO NON ANCORA DISPONIBILE</div>
       </div>`;
-  }
+      }
 
-  document.getElementById('video-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
+      document.getElementById('video-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
 
-function closeVideoModal(e, force) {
-  if (!force && e && e.target !== document.getElementById('video-modal')) return;
-  const modal = document.getElementById('video-modal');
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-  const vid = modal.querySelector('video');
-  if (vid) vid.pause();
-  const box = document.getElementById('vm-video-box');
-  const ifr = box.querySelector('iframe');
-  if (ifr) ifr.src = '';
-}
+    function closeVideoModal(e, force) {
+      if (!force && e && e.target !== document.getElementById('video-modal')) return;
+      const modal = document.getElementById('video-modal');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      const vid = modal.querySelector('video');
+      if (vid) vid.pause();
+      const box = document.getElementById('vm-video-box');
+      const ifr = box.querySelector('iframe');
+      if (ifr) ifr.src = '';
+    }
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeVideoModal(null, true);
-});
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeVideoModal(null, true);
+    });
 
-document.body.addEventListener('click', e => {
-  const vv = e.target.closest('.video-vert');
-  if (vv && !e.target.closest('#video-modal')) {
-    openVideoModal(vv);
-  }
-});
+    document.body.addEventListener('click', e => {
+      const vv = e.target.closest('.video-vert');
+      if (vv && !e.target.closest('#video-modal')) {
+        openVideoModal(vv);
+      }
+    });
 
-// ─── INIT ────────────────────────────────────────────────
-setTgOra('tg-ora-morte');
-</script>
+    // ─── INIT ────────────────────────────────────────────────
+    setTgOra('tg-ora-morte');
+  </script>
 
-<!-- ══ VIDEO MODAL ══ -->
-<div id="video-modal" onclick="closeVideoModal(event)">
-  <div class="vm-inner" id="vm-inner">
-    <div class="vm-video-box" id="vm-video-box"></div>
+  <!-- ══ VIDEO MODAL ══ -->
+  <div id="video-modal" onclick="closeVideoModal(event)">
+    <div class="vm-inner" id="vm-inner">
+      <div class="vm-video-box" id="vm-video-box"></div>
+    </div>
   </div>
-</div>
 
 </body>
+
 </html>
