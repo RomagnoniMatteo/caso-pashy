@@ -957,7 +957,7 @@
       font-family: 'Oswald', sans-serif;
       font-size: clamp(0.48rem, 2vw, 0.58rem);
       letter-spacing: 6px;
-      color: rgba(200,168,74,0.5);
+      color: rgba(200,168,74,0.8);
       text-align: center;
     }
 
@@ -997,7 +997,7 @@
     .tape-inner-lbl {
       font-family: 'Courier Prime', monospace;
       font-size: 0.54rem;
-      color: rgba(200,168,74,0.4);
+      color: rgba(200,168,74,0.8);
       letter-spacing: 4px;
     }
 
@@ -1033,7 +1033,7 @@
     .btn-tape {
       font-family: 'Oswald', sans-serif;
       background: transparent;
-      color: rgba(200,168,74,0.4);
+      color: rgba(200,168,74,0.8);
       border: 1px solid rgba(200,168,74,0.15);
       padding: 5px 14px;
       font-size: 0.58rem;
@@ -1050,7 +1050,7 @@
     .tape-ct {
       font-family: 'Courier Prime', monospace;
       font-size: 0.54rem;
-      color: rgba(200,168,74,0.3);
+      color: rgba(200,168,74,0.8);
       letter-spacing: 3px;
     }
 
@@ -1058,11 +1058,12 @@
     .accusa-wrap { max-width: 400px; width: 100%; }
     .accusa-lbl {
       font-family: 'Courier Prime', monospace;
-      font-size: clamp(0.5rem, 2vw, 0.6rem);
-      color: rgba(200,168,74,0.5);
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      color: rgba(200,168,74,0.9);
       letter-spacing: 3px;
       margin-bottom: 0.5rem;
-      text-align: center;
+      margin-top: 0.5rem;
+      text-align: start;
     }
     .accusa-row { display: flex; gap: 8px; flex-wrap: wrap; }
     .accusa-inp {
@@ -1116,7 +1117,7 @@
 
     /* TRASCRIZIONE DARK (nastro) */
     .btn-trascrizione-dark {
-      color: rgba(200,168,74,0.6) !important;
+      color: rgba(200,168,74,1) !important;
       border-color: rgba(200,168,74,0.15) !important;
     }
     .btn-trascrizione-dark:hover {
@@ -1655,7 +1656,7 @@
 
   <!-- ══ PASHY TAPE ══ -->
   <div id="pashy-screen" class="ind-screen screen">
-    <div class="tape-lbl-top">NASTRO RECUPERATO · POLIZIA SCIENTIFICA</div>
+    <div class="tape-lbl-top">NASTRO RECUPERATO</div>
     <div class="tape-wrap">
       <div class="tape-reels">
         <div class="reel">◉</div>
@@ -1682,7 +1683,7 @@
     </div>
 
     <div class="accusa-wrap" id="accusa-wrap" style="display:none;">
-      <div class="accusa-lbl">CHI HA UCCISO PASHY? · SCRIVI IL NOME DEL COLPEVOLE</div>
+      <div class="accusa-lbl">CHI HA UCCISO PASHY?</div>
       <div class="accusa-row">
         <input class="accusa-inp" id="accusa-inp" type="text" placeholder="NOME COGNOME..."
           onkeydown="if(event.key==='Enter')checkAccusa()">
